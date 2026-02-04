@@ -40,15 +40,15 @@ def get_ssm_parameter(parameter_name: str) -> Dict[str, Any]:
             logger.info(f"Successfully parsed SSM parameter: {parameter_name}")
             return config
         except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON in SSM parameter {parameter_name}: {str(e)}")
+            logger.warning(f"Invalid JSON in SSM parameter {parameter_name}: {str(e)}")
             raise ValueError(f"SSM parameter contains invalid JSON: {str(e)}")
             
     except ssm_client.exceptions.ParameterNotFound:
-        logger.error(f"SSM parameter not found: {parameter_name}")
+        logger.warning(f"SSM parameter not found: {parameter_name}")
         raise Exception(f"SSM parameter not found: {parameter_name}")
         
     except Exception as e:
-        logger.error(f"Failed to retrieve SSM parameter {parameter_name}: {str(e)}")
+        logger.warning(f"Failed to retrieve SSM parameter {parameter_name}: {str(e)}")
         raise Exception(f"Failed to retrieve SSM parameter: {str(e)}")
 
 
@@ -104,9 +104,9 @@ def get_secret_value(secret_arn: str) -> str:
             return response['SecretBinary'].decode('utf-8')
             
     except secrets_client.exceptions.ResourceNotFoundException:
-        logger.error(f"Secret not found: {secret_arn}")
+        logger.warning(f"Secret not found: {secret_arn}")
         raise Exception(f"Secret not found: {secret_arn}")
         
     except Exception as e:
-        logger.error(f"Failed to retrieve secret {secret_arn}: {str(e)}")
+        logger.warning(f"Failed to retrieve secret {secret_arn}: {str(e)}")
         raise Exception(f"Failed to retrieve secret: {str(e)}")

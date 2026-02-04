@@ -2,6 +2,7 @@ import boto3
 import os
 import sys
 from urllib.request import Request, urlopen
+from urllib.parse import urlparse
 from botocore.exceptions import ClientError
 
 participant_client = boto3.client("connectparticipant")
@@ -158,13 +159,27 @@ class ChatService:
                 return None, e.response['Error']['Message']
         else:
             try:
+                upload_url = attachResponse['UploadMetadata']['Url']
+                
+                # Validate URL scheme for security (B310, dynamic-urllib-use-detected)
+                # Only allow HTTPS for AWS pre-signed URLs
+                parsed_url = urlparse(upload_url)
+                if parsed_url.scheme != 'https':
+                    print(f"Rejected non-HTTPS URL scheme: {parsed_url.scheme}")
+                    return None, f"Only HTTPS URLs are allowed, got: {parsed_url.scheme}"
+                
+                # Additional validation: ensure it's an AWS domain
+                if not parsed_url.netloc.endswith('.amazonaws.com'):
+                    print(f"Rejected non-AWS domain: {parsed_url.netloc}")
+                    return None, f"Only AWS domains are allowed"
+                
                 req = Request(
-                    attachResponse['UploadMetadata']['Url'],
+                    upload_url,
                     data=fileContents,
                     headers=attachResponse['UploadMetadata']['HeadersToInclude'],
                     method='PUT'
                 )
-                filePostingResponse = urlopen(req)
+                filePostingResponse = urlopen(req)  # nosec B310 - URL scheme and domain validated above
             except Exception as e:
                 print("Error while uploading")
                 print(str(e))

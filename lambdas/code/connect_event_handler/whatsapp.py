@@ -1,6 +1,6 @@
 import boto3
 import json
-
+import os
 socialessaging = boto3.client("socialmessaging")
 
 META_API_VERSION = os.environ.get("META_API_VERSION","v24.0" )
@@ -15,17 +15,8 @@ def get_file_category(mime_type):
         return "video"
     elif mime_type.startswith("audio/"):
         return "audio"
-    elif mime_type in [
-        "application/pdf",
-        "text/plain",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/vnd.ms-excel",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    ]:
-        return "document"
     else:
-        # Default to document for unknown types
+        # Default to document for all other types (PDF, Office docs, etc.)
         return "document"
 
 
