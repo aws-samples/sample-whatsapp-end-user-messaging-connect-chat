@@ -164,16 +164,21 @@ class ChatService:
                 # Validate URL scheme and domain for security (prevents file:// scheme attacks)
                 parsed_url = urlparse(upload_url)
                 
+                # Explicitly block file:// scheme
+                if parsed_url.scheme == 'file':
+                    print("Rejected file:// URL scheme - local file access not allowed")
+                    return None, "file:// URLs are not allowed"
+                
                 # Only allow HTTPS scheme
                 if parsed_url.scheme != 'https':
                     print(f"Rejected non-HTTPS URL scheme: {parsed_url.scheme}")
                     return None, f"Only HTTPS URLs are allowed, got: {parsed_url.scheme}"
-            
                 
                 # Ensure netloc exists (prevents malformed URLs)
                 if not parsed_url.netloc:
                     print("Rejected URL with missing domain")
                     return None, "Invalid URL: missing domain"
+                
                 
                 req = Request(
                     upload_url,
