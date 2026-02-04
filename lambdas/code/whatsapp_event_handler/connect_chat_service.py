@@ -161,17 +161,19 @@ class ChatService:
             try:
                 upload_url = attachResponse['UploadMetadata']['Url']
                 
-                # Validate URL scheme for security (B310, dynamic-urllib-use-detected)
-                # Only allow HTTPS for AWS pre-signed URLs
+                # Validate URL scheme and domain for security (prevents file:// scheme attacks)
                 parsed_url = urlparse(upload_url)
+                
+                # Only allow HTTPS scheme
                 if parsed_url.scheme != 'https':
                     print(f"Rejected non-HTTPS URL scheme: {parsed_url.scheme}")
                     return None, f"Only HTTPS URLs are allowed, got: {parsed_url.scheme}"
+            
                 
-                # Additional validation: ensure it's an AWS domain
-                if not parsed_url.netloc.endswith('.amazonaws.com'):
-                    print(f"Rejected non-AWS domain: {parsed_url.netloc}")
-                    return None, f"Only AWS domains are allowed"
+                # Ensure netloc exists (prevents malformed URLs)
+                if not parsed_url.netloc:
+                    print("Rejected URL with missing domain")
+                    return None, "Invalid URL: missing domain"
                 
                 req = Request(
                     upload_url,
@@ -179,7 +181,7 @@ class ChatService:
                     headers=attachResponse['UploadMetadata']['HeadersToInclude'],
                     method='PUT'
                 )
-                filePostingResponse = urlopen(req)  # nosec B310 - URL scheme and domain validated above
+                filePostingResponse = urlopen(req)  # nosec B310
             except Exception as e:
                 print("Error while uploading")
                 print(str(e))
