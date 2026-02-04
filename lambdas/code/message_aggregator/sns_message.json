@@ -1,0 +1,19 @@
+{
+    "context": {
+        "MetaWabaIds": [
+            {
+                "wabaId": "XXXXXXXXXXXXXXX",
+                "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+            }
+        ],
+        "MetaPhoneNumberIds": [
+            {
+                "metaPhoneNumberId": "XXXXXXXXXXXXXXX",
+                "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+            }
+        ]
+    },
+    "whatsAppWebhookEntry": "{\"id\":\"509609192225796\",\"changes\":[{\"value\":{\"messaging_product\":\"whatsapp\",\"metadata\":{\"display_phone_number\":\"56227607895\",\"phone_number_id\":\"503650672828631\"},\"contacts\":[{\"profile\":{\"name\":\"Kike\"},\"wa_id\":\"14157470265\"}],\"messages\":[{\"from\":\"14157470265\",\"id\":\"wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQjM4REI5MzM5RUNCM0FDMzE0RQA=\",\"timestamp\":\"1762827867\",\"text\":{\"body\":\"BB\"},\"type\":\"text\"}]},\"field\":\"messages\"}]}",
+    "aws_account_id": "XXXXXXXXXXXX",
+    "message_timestamp": "2025-11-11T02:24:28.476795989Z"
+}

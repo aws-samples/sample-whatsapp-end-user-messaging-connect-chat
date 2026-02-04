@@ -1,0 +1,34 @@
+{
+    "id": "XXXXXXXXXXXXXXX",
+    "changes": [
+        {
+            "value": {
+                "messaging_product": "whatsapp",
+                "metadata": {
+                    "display_phone_number": "XXXXXXXXXXX",
+                    "phone_number_id": "XXXXXXXXXXXXXXX"
+                },
+                "contacts": [
+                    {
+                        "profile": {
+                            "name": "<name>"
+                        },
+                        "wa_id": "XXXXXXXXXXX"
+                    }
+                ],
+                "messages": [
+                    {
+                        "from": "XXXXXXXXXXX",
+                        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                        "timestamp": "1762796842",
+                        "text": {
+                            "body": "HHH"
+                        },
+                        "type": "text"
+                    }
+                ]
+            },
+            "field": "messages"
+        }
+    ]
+}

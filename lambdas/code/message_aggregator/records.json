@@ -1,0 +1,142 @@
+[
+    {
+        "metadata": {
+            "phone_number_id": "XXXXXXXXXXXXXXX",
+            "display_phone_number": "XXXXXXXXXXX"
+        },
+        "field": "messages",
+        "contact": {
+            "profile": {
+                "name": "<name>"
+            },
+            "wa_id": "XXXXXXXXXXX"
+        },
+        "messaging_product": "whatsapp",
+        "context": {
+            "MetaWabaIds": [
+                {
+                    "wabaId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+                }
+            ],
+            "MetaPhoneNumberIds": [
+                {
+                    "metaPhoneNumberId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+                }
+            ]
+        },
+        "from": "XXXXXXXXXXX",
+        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "text": {
+            "body": "A"
+        },
+        "type": "text",
+        "timestamp": "1762843882"
+    },
+    {
+        "metadata": {
+            "phone_number_id": "XXXXXXXXXXXXXXX",
+            "display_phone_number": "XXXXXXXXXXX"
+        },
+        "field": "messages",
+        "contact": {
+            "profile": {
+                "name": "<name>"
+            },
+            "wa_id": "XXXXXXXXXXX"
+        },
+        "messaging_product": "whatsapp",
+        "context": {
+            "MetaWabaIds": [
+                {
+                    "wabaId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+                }
+            ],
+            "MetaPhoneNumberIds": [
+                {
+                    "metaPhoneNumberId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+                }
+            ]
+        },
+        "from": "XXXXXXXXXXX",
+        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "text": {
+            "body": "B"
+        },
+        "type": "text",
+        "timestamp": "1762843883"
+    },
+    {
+        "metadata": {
+            "phone_number_id": "XXXXXXXXXXXXXXX",
+            "display_phone_number": "XXXXXXXXXXX"
+        },
+        "field": "messages",
+        "contact": {
+            "profile": {
+                "name": "<name>"
+            },
+            "wa_id": "XXXXXXXXXXX"
+        },
+        "messaging_product": "whatsapp",
+        "context": {
+            "MetaWabaIds": [
+                {
+                    "wabaId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+                }
+            ],
+            "MetaPhoneNumberIds": [
+                {
+                    "metaPhoneNumberId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+                }
+            ]
+        },
+        "from": "XXXXXXXXXXX",
+        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "text": {
+            "body": "C"
+        },
+        "type": "text",
+        "timestamp": "1762843884"
+    },
+    {
+        "metadata": {
+            "phone_number_id": "XXXXXXXXXXXXXXX",
+            "display_phone_number": "XXXXXXXXXXX"
+        },
+        "field": "messages",
+        "contact": {
+            "profile": {
+                "name": "<name>"
+            },
+            "wa_id": "XXXXXXXXXXX"
+        },
+        "messaging_product": "whatsapp",
+        "context": {
+            "MetaWabaIds": [
+                {
+                    "wabaId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+                }
+            ],
+            "MetaPhoneNumberIds": [
+                {
+                    "metaPhoneNumberId": "XXXXXXXXXXXXXXX",
+                    "arn": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+                }
+            ]
+        },
+        "from": "XXXXXXXXXXX",
+        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "text": {
+            "body": "D"
+        },
+        "type": "text",
+        "timestamp": "1762843886"
+    }
+]
