@@ -62,7 +62,8 @@ suppresion_list = [
         "id": "AwsSolutions-IAM5",
         "reason": "Lambda invoke permission requires :* suffix to support function versions and aliases",
         "appliesTo": [
-            "Resource::<LWhatsappIn3B664A40.Arn>:*"
+            "Resource::<LWhatsappIn3B664A40.Arn>:*",
+            "Resource::<LconvertWavEF4065A5.Arn>:*"
         ]
     },
     {

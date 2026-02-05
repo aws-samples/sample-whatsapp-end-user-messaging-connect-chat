@@ -51,6 +51,7 @@ class WhatsappEndUserMessagingConnectChatStack(Stack):
     def set_up_env_vars(self):
         self.lambda_functions.message_aggregator.add_environment(key="WHATSAPP_EVENT_HANDLER", value=self.lambda_functions.whatsapp_event_handler.function_arn)
         self.lambda_functions.on_raw_messages.add_environment(key="RAW_MESSAGES_TABLE", value=self.tables.raw_messages.table_name)
+        self.lambda_functions.whatsapp_event_handler.add_environment(key="CONVERT_WAV_HANDLER", value=self.lambda_functions.convert_to_wav.function_arn)
 
         for l in [self.lambda_functions.whatsapp_event_handler,  self.lambda_functions.connect_event_handler]:
             l.add_environment(key="META_API_VERSION", value=config.META_API_VERSION)
@@ -69,6 +70,7 @@ class WhatsappEndUserMessagingConnectChatStack(Stack):
         self.tables.active_connections.grant_read_write_data(self.lambda_functions.connect_event_handler)
 
         self.lambda_functions.whatsapp_event_handler.grant_invoke(self.lambda_functions.message_aggregator)
+        self.lambda_functions.convert_to_wav.grant_invoke(self.lambda_functions.whatsapp_event_handler)
 
         eum_policy = iam.PolicyStatement(
             actions=["social-messaging:SendWhatsAppMessage","social-messaging:GetWhatsAppMessageMedia"],
@@ -91,6 +93,7 @@ class WhatsappEndUserMessagingConnectChatStack(Stack):
         self.lambda_functions.whatsapp_event_handler.add_to_role_policy(transcribe_policy)
 
         self.s3_bucket.grant_read_write(self.lambda_functions.whatsapp_event_handler)
+        self.s3_bucket.grant_read_write(self.lambda_functions.convert_to_wav)
 
 
         self.topic_messages_in.allow_principal("social-messaging.amazonaws.com")

@@ -13,7 +13,7 @@ BASE_LAMBDA_CONFIG = dict(
 )
 
 
-from layers import TranscribeClient, RequestsLayer
+from layers import TranscribeClient, RequestsLayer, FFMpeg
 
 class Lambdas(Construct):
     def __init__(
@@ -22,6 +22,7 @@ class Lambdas(Construct):
         
         TranscribeLayer = TranscribeClient(self, "TranscribeLayer")
         RequestsLib = RequestsLayer(self, "RequestsLayer")
+        FFMLayer = FFMpeg(self, "FFMpeg")
 
         # ======================================================================
         # Message RAW
@@ -70,6 +71,22 @@ class Lambdas(Construct):
             **BASE_LAMBDA_CONFIG, # type: ignore
         )
 
+        X86_64_LAMBDA_CONFIG = dict(**BASE_LAMBDA_CONFIG)
+        X86_64_LAMBDA_CONFIG.update(architecture=aws_lambda.Architecture.X86_64)
+        
+
+        # ======================================================================
+        # Convert ogg to wav (to attach file in connect)
+        # ======================================================================
+        self.convert_to_wav = aws_lambda.Function(
+            self,
+            "convertWav",
+            code=aws_lambda.Code.from_asset("./lambdas/code/convert_to_wav/"),
+            handler="lambda_function.lambda_handler",
+            layers=[FFMLayer.layer],
+            **X86_64_LAMBDA_CONFIG, # type: ignore
+        )
+
 
 
 
@@ -78,5 +95,6 @@ class Lambdas(Construct):
             self.whatsapp_event_handler,
             self.connect_event_handler,
             self.on_raw_messages,
-            self.message_aggregator
+            self.message_aggregator,
+            self.convert_to_wav
         ]
