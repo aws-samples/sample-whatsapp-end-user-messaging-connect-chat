@@ -13,7 +13,7 @@ BASE_LAMBDA_CONFIG = dict(
 )
 
 
-from layers import TranscribeClient
+from layers import TranscribeClient, RequestsLayer
 
 class Lambdas(Construct):
     def __init__(

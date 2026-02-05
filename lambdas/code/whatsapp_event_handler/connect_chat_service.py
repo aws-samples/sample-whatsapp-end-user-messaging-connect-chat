@@ -188,8 +188,10 @@ class ChatService:
                 filePostingResponse = requests.put(
                     upload_url,
                     data=fileContents,
-                    headers=attachResponse['UploadMetadata']['HeadersToInclude']
+                    headers=attachResponse['UploadMetadata']['HeadersToInclude'],
+                    timeout=30
                 )
+                filePostingResponse.raise_for_status()
             except Exception as e:
                 print("Error while uploading")
                 print(str(e))
