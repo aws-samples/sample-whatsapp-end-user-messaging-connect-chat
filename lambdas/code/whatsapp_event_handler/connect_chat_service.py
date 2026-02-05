@@ -1,7 +1,7 @@
 import boto3
 import os
 import sys
-from urllib.request import Request, urlopen
+import requests
 from urllib.parse import urlparse
 from botocore.exceptions import ClientError
 
@@ -179,20 +179,23 @@ class ChatService:
                     print("Rejected URL with missing domain")
                     return None, "Invalid URL: missing domain"
                 
+                # Only allow AWS domains
+                if not parsed_url.netloc.endswith('.amazonaws.com'):
+                    print(f"Rejected non-AWS domain: {parsed_url.netloc}")
+                    return None, f"Only AWS domains are allowed"
                 
-                req = Request(
+                # Upload file using requests
+                filePostingResponse = requests.put(
                     upload_url,
                     data=fileContents,
-                    headers=attachResponse['UploadMetadata']['HeadersToInclude'],
-                    method='PUT'
+                    headers=attachResponse['UploadMetadata']['HeadersToInclude']
                 )
-                filePostingResponse = urlopen(req)  # nosec B310
             except Exception as e:
                 print("Error while uploading")
                 print(str(e))
                 return None, str(e)
             else:
-                print(filePostingResponse.status) 
+                print(filePostingResponse.status_code) 
                 verificationResponse = participant_client.complete_attachment_upload(
                     AttachmentIds=[attachResponse['AttachmentId']],
                     ConnectionToken=ConnectionToken)

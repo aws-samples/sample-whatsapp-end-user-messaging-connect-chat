@@ -21,6 +21,7 @@ class Lambdas(Construct):
         super().__init__(scope, construct_id, **kwargs)
         
         TranscribeLayer = TranscribeClient(self, "TranscribeLayer")
+        RequestsLib = RequestsLayer(self, "RequestsLayer")
 
         # ======================================================================
         # Message RAW
@@ -53,7 +54,7 @@ class Lambdas(Construct):
             "WhatsappIn",
             code=aws_lambda.Code.from_asset("./lambdas/code/whatsapp_event_handler/"),
             handler="lambda_function.lambda_handler",
-            layers=[TranscribeLayer.layer],
+            layers=[TranscribeLayer.layer, RequestsLib.layer],
             **BASE_LAMBDA_CONFIG, # type: ignore
         )
 
