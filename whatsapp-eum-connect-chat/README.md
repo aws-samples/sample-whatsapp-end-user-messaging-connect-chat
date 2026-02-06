@@ -92,20 +92,22 @@ Once aggregated, the Lambda invokes the WhatsApp event handler asynchronously, w
 
 ## Cost Estimation
 
-Example scenario: 1,000 raw messages aggregated into 250 messages (4:1 ratio assumption)
+Example scenario: 
+- 1,000 raw messages aggregated into 250 messages (4:1 ratio assumption)
+- Messages are answered by a Human, the answer remain the same.
+
 
 | Component | Without Buffering | With Buffering | Savings |
 |---|---|---|---|
 | DynamoDB + Streams | — | ~$0.0013 | — |
 | Lambda (all functions) | — | ~$0.00078 | — |
 | Buffering Infrastructure | $0.00 | ~$0.002 | — |
-| API Calls | 1,000 calls | 250 calls | 75% fewer calls |
-| Connect Chat Cost  | $8.00 | $2.00 | $6.00 |
-| End User Messaging Costs | $10.00 | $2.50 | $7.50 |
-| **Total** | **$18.00** | **~$4.502** | **~$13.498(75%)** |
+| Ibound API Calls | 1,000 calls | 250 calls | 75% fewer calls |
+| Connect Chat Cost  | $4.00  | $1.00 | $3.00 |
+| **Total** | **$4.00** | **~$1** | **~$3(75%)** |
 
-- *EUM cost calculated as $0.005 × msg (in) + $0.005 × msg (out).* _[see pricing](https://aws.amazon.com/es/connect/pricing/)_
 - *Connect Chat cost calculated as $0.004 × msg (in) + $0.004 × msg (out). [see pricing](https://aws.amazon.com/es/end-user-messaging/pricing/)*
+- *EUM cost calculated as $0.005 × msg (in) + $0.005 × msg (out).* _[see pricing](https://aws.amazon.com/es/connect/pricing/)_
 
 
 ## Deployment
