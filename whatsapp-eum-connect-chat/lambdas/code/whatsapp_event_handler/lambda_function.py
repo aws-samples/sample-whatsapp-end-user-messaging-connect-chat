@@ -17,6 +17,9 @@ transcribe_service = TranscribeService()
 lambda_client = boto3.client('lambda')
 
 
+
+#TODO: Ignore reactions and stickers
+
 def convert_to_wav(location: str) -> str:
     """
     Invoke the converter lambda to convert audio file to WAV format.

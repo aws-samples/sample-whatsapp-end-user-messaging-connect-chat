@@ -9,7 +9,6 @@ CONFIG_PARAM_INITIAL_CONTENT = {
     "chat_duration_minutes": 60,
     "ignore_reactions": "yes",
     "ignore_stickers": "yes",
-    "buffer_in_seconds": 20,
 }
 
 BUFFER_IN_SECONDS = 20
