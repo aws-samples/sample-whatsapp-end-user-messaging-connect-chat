@@ -36,6 +36,7 @@ class WhatsappMessage:
         self.attachment = None
         self.transcription = None
         self.get_attachment(download=download_attachments)
+        
 
     def add_transcription(self, transcription):
         self.transcription = transcription
@@ -249,7 +250,7 @@ class WhatsappMessage:
 
 
 class WhatsappService:
-    def __init__(self, event) -> None:
+    def __init__(self, event, ignore_reactions= True, ignore_stickers = True) -> None:
         self.context = event.get("context", {})
         self.meta_phone_number_ids = self.context.get("MetaPhoneNumberIds", [])
         self.meta_waba_ids = self.context.get("MetaWabaIds", [])
@@ -264,6 +265,14 @@ class WhatsappService:
             phone_number_id = metadata.get("phone_number_id", "")
             phone_number = self.get_phone_number_arn(phone_number_id)
             for message in event.get("messages", []):
+                
+                if message.get("type") == "reaction" and ignore_reactions:
+                    print("ignoring reaction message")
+                    continue
+                if message.get("type") == "sticker" and ignore_stickers:
+                    print("ignoring sticker message")
+                    continue
+
                 from_number = message.get("from", "")
                 message.update({"customer_name": self.get_customer_name(from_number, contacts)})
                 print(f"message: {message}")

@@ -63,7 +63,8 @@ suppresion_list = [
         "reason": "Lambda invoke permission requires :* suffix to support function versions and aliases",
         "appliesTo": [
             "Resource::<LWhatsappIn3B664A40.Arn>:*",
-            "Resource::<LconvertWavEF4065A5.Arn>:*"
+            "Resource::<LconvertWavEF4065A5.Arn>:*",
+            "Resource::<LTranscribe6919B26E.Arn>:*"
         ]
     },
     {

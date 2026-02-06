@@ -94,7 +94,7 @@ Once aggregated, the Lambda invokes the WhatsApp event handler asynchronously, w
 
 Example scenario: 
 - 1,000 raw messages aggregated into 250 messages (4:1 ratio assumption)
-- Messages are answered by a Human, the answer remain the same.
+- Messages are answered by a Human, the answer remain the same (same answer costs)
 
 
 | Component | Without Buffering | With Buffering | Savings |
@@ -155,4 +155,8 @@ In order to test, go to your Amazon Connect Instance and [Open Contact control P
 
 Try sending a rapid sequence of messages files and see how they arrives to Amazon connect. 
 
-![](demo_buffer.gif)
+<div align="center">
+<video width="540" controls>
+  <source src="./demo_eum_whatsapp.mp4" type="video/mp4">
+</video>
+</div>
