@@ -101,7 +101,7 @@ def process_message(chat: ChatService, connections:ConnectionsService, message:W
     newContactId = None
 
     if contact:
-        logger.info(f"Found existing connection for {message.phone_number[:3]}...")
+        logger.info(f"Found existing connection for Phone Number...")
         if text:
             newContactId, newParticipantToken, newConnectionToken = (
                 chat.send_message_with_retry_connection(
