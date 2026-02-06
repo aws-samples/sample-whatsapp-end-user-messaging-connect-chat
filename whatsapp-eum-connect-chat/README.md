@@ -155,4 +155,8 @@ In order to test, go to your Amazon Connect Instance and [Open Contact control P
 
 Try sending a rapid sequence of messages files and see how they arrives to Amazon connect. 
 
-![](demo_buffer.gif)
+<div align="center">
+<video width="540" controls>
+  <source src="./demo_eum_whatsapp.mp4" type="video/mp4">
+</video>
+</div>

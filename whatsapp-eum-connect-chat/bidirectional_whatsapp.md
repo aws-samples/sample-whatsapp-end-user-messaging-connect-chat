@@ -116,7 +116,7 @@ Try with voice notes, photos, files and see how they arrives to Amazon connect. 
 
 
 <div align="center">
-<video width="300" height="480" controls>
+<video width="540" controls>
   <source src="./demo_eum_whatsapp.mp4" type="video/mp4">
 </video>
 </div>
