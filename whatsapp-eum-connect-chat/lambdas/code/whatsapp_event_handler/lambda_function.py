@@ -4,64 +4,15 @@ import logging
 import boto3
 
 from whatsapp import WhatsappService, WhatsappMessage
-from transcribe import TranscribeService
 from connections_service import ConnectionsService
 from connect_chat_service import ChatService
 from config_service import get_secret_value, get_ssm_parameter
-
+from audio_converter import convert_to_wav
+from audio_transcriber import transcribe_audio
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-transcribe_service = TranscribeService()
-lambda_client = boto3.client('lambda')
-
-
-
-#TODO: Ignore reactions and stickers
-
-def convert_to_wav(location: str) -> str:
-    """
-    Invoke the converter lambda to convert audio file to WAV format.
-    
-    Args:
-        location: S3 URI of the file to convert (e.g., 's3://bucket/path/file.ogg')
-    
-    Returns:
-        S3 URI of the converted WAV file, or original location if conversion not needed/failed
-    """
-    converter_lambda = os.environ.get('CONVERT_WAV_HANDLER')
-    if not converter_lambda:
-        logger.warning("CONVERT_WAV_HANDLER environment variable not set")
-        return None
-    try:
-        payload = {'location': location}
-        logger.info(f"Invoking converter lambda with location: {location}")
-        
-        response = lambda_client.invoke(
-            FunctionName=converter_lambda,
-            InvocationType='RequestResponse',
-            Payload=json.dumps(payload)
-        )
-        
-        result = json.loads(response['Payload'].read())
-        logger.info(f"Converter lambda response: {result}")
-        
-        if result.get('statusCode') == 200:
-            converted_location = result.get('converted_location')
-            if converted_location:
-                logger.info(f"Successfully converted to: {converted_location}")
-                return converted_location
-            else:
-                logger.info("File did not require conversion")
-
-        else:
-            logger.error(f"Converter lambda failed: {result.get('error')}")
-            return None
-
-    except Exception as e:
-        logger.error(f"Error invoking converter lambda: {str(e)}")
-        return None
 
 def get_extension_by_file_type(file_type):
     if "jpeg" in file_type: return "jpeg"
@@ -125,9 +76,7 @@ def process_attachment(chat:ChatService, connections, message):
 
 
         # transcribe using Amazon Transcribe
-        transcription = transcribe_service.transcribe(
-            message.attachment.get("location")
-        )
+        transcription = transcribe_audio( message.attachment.get("location"))
         message.add_transcription(transcription)
 
 
@@ -185,8 +134,8 @@ def process_message(chat: ChatService, connections:ConnectionsService, message:W
     message.reaction("✅")
 
 
-def process_record(chat, connections, event):
-    whatsapp = WhatsappService(event)
+def process_record(chat, connections, event, ignore_stickers=True, ignore_reactions=True):
+    whatsapp = WhatsappService(event, ignore_reactions, ignore_stickers)
     for message in whatsapp.messages:
         process_message(chat, connections, message)
 
@@ -196,14 +145,19 @@ def lambda_handler(event, context):
     connections = ConnectionsService(os.environ.get("TABLE_NAME"))
     config = get_ssm_parameter(os.environ["CONFIG_PARAM_NAME"])
 
+    INSTANCE_ID = config.get("instance_id")
+    CONTACT_FLOW_ID = config.get("contact_flow_id")
+    IGNORE_REACTIONS = True if config.get("ignore_reactions") == "yes" else False
+    IGNORE_STICKERS = True if config.get("ignore_stickers") == "yes" else False
+    CHAT_DURATION_MINUTES = int(config.get("chat_duration_minutes", 60))
 
-    chat = ChatService(
-        instance_id=config.get("instance_id"),
-        contact_flow_id=config.get("contact_flow_id"),
-        chat_duration_minutes=int(config.get("chat_duration_minutes", 60)),
-        topic_arn=os.environ.get("TOPIC_ARN"),
-    )
+    if not INSTANCE_ID or not CONTACT_FLOW_ID:
+        logger.error("INSTANCE_ID and CONTACT_FLOW_ID must be set in environment variables")
+        return {"statusCode": 200, "body": "Missing required configuration"}
 
-    process_record(chat, connections, event)
+
+    chat = ChatService( instance_id=INSTANCE_ID, contact_flow_id=CONTACT_FLOW_ID, chat_duration_minutes=CHAT_DURATION_MINUTES, topic_arn=os.environ.get("TOPIC_ARN"))
+
+    process_record(chat, connections, event,ignore_stickers=IGNORE_STICKERS, ignore_reactions=IGNORE_REACTIONS)
 
     

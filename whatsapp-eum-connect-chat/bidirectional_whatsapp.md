@@ -114,7 +114,9 @@ In order to test, go to your Amazon Connect Instance and [Open Contact control P
 
 Try with voice notes, photos, files and see how they arrives to Amazon connect. Also try sending a file from the Agent to the user.
 
-_(personal phone number blurred)_
 
-![](demo_blurred.gif)
-
+<div align="center">
+<video width="300" height="480" controls>
+  <source src="./demo_eum_whatsapp.mp4" type="video/mp4">
+</video>
+</div>

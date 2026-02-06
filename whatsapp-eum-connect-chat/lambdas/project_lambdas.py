@@ -2,7 +2,7 @@ from aws_cdk import ( Duration, aws_lambda)
 from constructs import Construct
 
 
-LAMBDA_TIMEOUT = 30
+LAMBDA_TIMEOUT = 900
 
 BASE_LAMBDA_CONFIG = dict(
     timeout=Duration.seconds(LAMBDA_TIMEOUT),
@@ -11,7 +11,6 @@ BASE_LAMBDA_CONFIG = dict(
     architecture=aws_lambda.Architecture.ARM_64,
     tracing=aws_lambda.Tracing.ACTIVE,
 )
-
 
 from layers import TranscribeClient, RequestsLayer, FFMpeg
 
@@ -55,7 +54,19 @@ class Lambdas(Construct):
             "WhatsappIn",
             code=aws_lambda.Code.from_asset("./lambdas/code/whatsapp_event_handler/"),
             handler="lambda_function.lambda_handler",
-            layers=[TranscribeLayer.layer, RequestsLib.layer],
+            layers=[RequestsLib.layer],
+            **BASE_LAMBDA_CONFIG, # type: ignore
+        )
+
+        # ======================================================================
+        # Transcribe Audio Messages
+        # ======================================================================
+        self.transcribe_audio = aws_lambda.Function(
+            self,
+            "Transcribe",
+            code=aws_lambda.Code.from_asset("./lambdas/code/transcribe_audio/"),
+            handler="lambda_function.lambda_handler",
+            layers=[TranscribeLayer.layer],
             **BASE_LAMBDA_CONFIG, # type: ignore
         )
 
@@ -71,13 +82,12 @@ class Lambdas(Construct):
             **BASE_LAMBDA_CONFIG, # type: ignore
         )
 
-        X86_64_LAMBDA_CONFIG = dict(**BASE_LAMBDA_CONFIG)
-        X86_64_LAMBDA_CONFIG.update(architecture=aws_lambda.Architecture.X86_64)
-        
-
         # ======================================================================
         # Convert ogg to wav (to attach file in connect)
         # ======================================================================
+        X86_64_LAMBDA_CONFIG = dict(**BASE_LAMBDA_CONFIG)
+        X86_64_LAMBDA_CONFIG.update(architecture=aws_lambda.Architecture.X86_64)
+
         self.convert_to_wav = aws_lambda.Function(
             self,
             "convertWav",
@@ -96,5 +106,6 @@ class Lambdas(Construct):
             self.connect_event_handler,
             self.on_raw_messages,
             self.message_aggregator,
-            self.convert_to_wav
+            self.convert_to_wav,
+            self.transcribe_audio
         ]

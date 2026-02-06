@@ -94,7 +94,7 @@ Once aggregated, the Lambda invokes the WhatsApp event handler asynchronously, w
 
 Example scenario: 
 - 1,000 raw messages aggregated into 250 messages (4:1 ratio assumption)
-- Messages are answered by a Human, the answer remain the same.
+- Messages are answered by a Human, the answer remain the same (same answer costs)
 
 
 | Component | Without Buffering | With Buffering | Savings |
