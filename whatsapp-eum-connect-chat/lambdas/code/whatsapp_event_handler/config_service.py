@@ -71,7 +71,7 @@ def get_secret_value(secret_arn: str) -> str:
     
     try:
         secrets_client = boto3.client('secretsmanager')
-        logger.info(f"Retrieving secret: {secret_arn}")
+        logger.info(f"Retrieving secret")
         
         response = secrets_client.get_secret_value(SecretId=secret_arn)
         
@@ -104,9 +104,9 @@ def get_secret_value(secret_arn: str) -> str:
             return response['SecretBinary'].decode('utf-8')
             
     except secrets_client.exceptions.ResourceNotFoundException:
-        logger.warning(f"Secret not found: {secret_arn}")
-        raise Exception(f"Secret not found: {secret_arn}")
+        #logger.warning(f"Secret not found: {secret_arn}")
+        raise Exception(f"Secret not found")
         
     except Exception as e:
-        logger.warning(f"Failed to retrieve secret {secret_arn}: {str(e)}")
+        #logger.warning(f"Failed to retrieve secret {secret_arn}: {str(e)}")
         raise Exception(f"Failed to retrieve secret: {str(e)}")

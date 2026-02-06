@@ -7,7 +7,7 @@ This document explains how the project handles file attachments in both directio
 Zooming in, the flow is depicted in the following image:
 
 1. If user send a file or media, that file is stored in s3 bucket
-2. if is .ogg (voice notes) optionally is converted to wav for connect attachment support
+2. if is .ogg (voice notes) optionally is converted to wav for connect attachment support (see [File types supported for attachments to emails, cases, or chats](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html))
 3. File is attached to Amazon Connect chat.
 4. Later on, If Connect sends an attachment is detected with `Type: ATTACHMENT` event.
 5. AWS lambda que media url and send to user a corresponding attachment (file, audio, video, etc)
