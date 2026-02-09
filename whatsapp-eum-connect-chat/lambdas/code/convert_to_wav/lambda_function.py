@@ -1,6 +1,9 @@
 import json
 import os
-import subprocess
+import re
+import shutil
+import subprocess  # nosec B404 - subprocess required for ffmpeg invocation; inputs validated via _validate_path
+import tempfile
 import boto3
 import logging
 from urllib.parse import urlparse
@@ -8,13 +11,28 @@ from urllib.parse import urlparse
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-tmp_path = "/tmp"
+
+
+
+ALLOWED_FILENAME_PATTERN = re.compile(r'^[\w\-. ]+$')
+
+
+def _validate_path(path: str) -> str:
+    """Validate that a file path is safe for use in subprocess commands."""
+    filename = os.path.basename(path)
+    if not ALLOWED_FILENAME_PATTERN.match(filename):
+        raise ValueError(f"Invalid characters in filename: {filename}")
+    # Resolve to absolute and ensure it stays under /tmp
+    resolved = os.path.realpath(path)
+    if not resolved.startswith("/tmp/"):
+        raise ValueError(f"Path escapes temp directory: {resolved}")
+    return resolved
 
 
 def run_ffmpeg_command(command: list) -> tuple:
     try:
         print(command)
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603 - inputs validated via _validate_path
             command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -62,14 +80,15 @@ def upload_file(local_path, bucket, key):
 
 def convert_ogg_to_wav(input_file, output_file):
     """Convert OGG to WAV using ffmpeg"""
-    ffmpeg_path = 'ffmpeg'
-    
+    safe_input = _validate_path(input_file)
+    safe_output = _validate_path(output_file)
+
     command = [
-        ffmpeg_path, '-i', input_file,
+        'ffmpeg', '-i', safe_input,
         '-acodec', 'pcm_s16le',
         '-ar', '16000',
         '-ac', '1',
-        output_file
+        safe_output
     ]
     
     return_code, stdout, stderr = run_ffmpeg_command(command)
@@ -98,35 +117,36 @@ def lambda_handler(event, context):
     
     # Download OGG file
     location = f"{prefix}/{file}" if prefix else file
-    local_ogg = f"{tmp_path}/{file}"
-    print(f"Downloading {file} from s3://{bucket}/{location} to {local_ogg}")
-    download_file(bucket, location, local_ogg)
-    
-    # Convert to WAV
-    wav_file = f"{fileName}.wav"
-    local_wav = f"{tmp_path}/{wav_file}"
-    
-    success = convert_ogg_to_wav(local_ogg, local_wav)
-    
-    if not success:
+    tmp_dir = tempfile.mkdtemp()
+
+    try:
+        local_ogg = os.path.join(tmp_dir, file)
+        print(f"Downloading {file} from s3://{bucket}/{location} to {local_ogg}")
+        download_file(bucket, location, local_ogg)
+
+        # Convert to WAV
+        wav_file = f"{fileName}.wav"
+        local_wav = os.path.join(tmp_dir, wav_file)
+
+        success = convert_ogg_to_wav(local_ogg, local_wav)
+
+        if not success:
+            return {
+                'statusCode': 500,
+                'error': 'ffmpeg conversion failed'
+            }
+
+        # Upload WAV to S3
+        wav_location = f"{prefix}/{wav_file}" if prefix else wav_file
+        upload_file(local_wav, bucket, wav_location)
+
+        # Return both locations
+        converted_location = f"s3://{bucket}/{wav_location}"
+
         return {
-            'statusCode': 500,
-            'error': 'ffmpeg conversion failed'
+            'statusCode': 200,
+            'location': s3_uri,
+            'converted_location': converted_location
         }
-    
-    # Upload WAV to S3
-    wav_location = f"{prefix}/{wav_file}" if prefix else wav_file
-    upload_file(local_wav, bucket, wav_location)
-    
-    # Clean up temp files
-    os.remove(local_ogg)
-    os.remove(local_wav)
-    
-    # Return both locations
-    converted_location = f"s3://{bucket}/{wav_location}"
-    
-    return {
-        'statusCode': 200,
-        'location': s3_uri,
-        'converted_location': converted_location
-    }
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)

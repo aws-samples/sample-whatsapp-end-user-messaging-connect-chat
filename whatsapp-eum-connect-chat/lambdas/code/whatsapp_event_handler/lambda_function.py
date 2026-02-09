@@ -14,6 +14,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
+# TODO: make sure chat exist before attaching a file.
+
 def get_extension_by_file_type(file_type):
     if "jpeg" in file_type: return "jpeg"
     if "png" in file_type: return "png"
