@@ -24,7 +24,7 @@ def _validate_path(path: str) -> str:
         raise ValueError(f"Invalid characters in filename: {filename}")
     # Resolve to absolute and ensure it stays under /tmp
     resolved = os.path.realpath(path)
-    if not resolved.startswith("/tmp/"):
+    if not resolved.startswith("/tmp/"):  # nosec B108 - Lambda only provides /tmp as writable space; this is an intentional jail check
         raise ValueError(f"Path escapes temp directory: {resolved}")
     return resolved
 
