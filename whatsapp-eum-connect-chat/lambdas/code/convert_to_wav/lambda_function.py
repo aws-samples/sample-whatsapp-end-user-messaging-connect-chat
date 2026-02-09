@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess  # nosec B404 - subprocess required for ffmpeg invocation; inputs validated via _validate_path
 import tempfile
@@ -84,11 +85,11 @@ def convert_ogg_to_wav(input_file, output_file):
     safe_output = _validate_path(output_file)
 
     command = [
-        'ffmpeg', '-i', safe_input,
+        'ffmpeg', '-i', shlex.quote(safe_input),
         '-acodec', 'pcm_s16le',
         '-ar', '16000',
         '-ac', '1',
-        safe_output
+        shlex.quote(safe_output)
     ]
     
     return_code, stdout, stderr = run_ffmpeg_command(command)
