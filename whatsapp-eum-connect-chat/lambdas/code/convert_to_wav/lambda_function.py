@@ -30,20 +30,6 @@ def _validate_path(path: str) -> str:
     return resolved
 
 
-def run_ffmpeg_command(command: list) -> tuple:
-    try:
-        print(command)
-        result = subprocess.run(  # nosec B603 - inputs validated via _validate_path
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        return result.returncode, result.stdout, result.stderr
-    except Exception as e:
-        return 1, "", str(e)
-
-
 def parse_location(s3_uri):
     """Parse S3 URI and return bucket, prefix, fileName, extension, file"""
     parsed = urlparse(s3_uri)
@@ -91,11 +77,18 @@ def convert_ogg_to_wav(input_file, output_file):
         '-ac', '1',
         shlex.quote(safe_output)
     ]
+    print(command)
     
-    return_code, stdout, stderr = run_ffmpeg_command(command)
-    print(f"code: {return_code}, stdout: {stdout}, stderr: {stderr}")
+    result = subprocess.run(  # nosec B603 - inputs validated via _validate_path
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    print(f"code: {result.returncode}, stdout: {result.stdout}, stderr: { result.stderr}")
     
-    return return_code == 0
+    return result.returncode == 0
 
 
 def lambda_handler(event, context):
