@@ -67,6 +67,38 @@ class ChatService:
             return contactId, participantToken, connectionToken
         return None, None, None
 
+    def attach_file_with_retry_connection(self, message, connections, fileContents, fileName, fileType, connectionToken):
+        """Attach file with retry logic: if chat expired, start a new one and retry."""
+        attachment_id, result = self.attach_file(
+            fileContents=fileContents, fileName=fileName, fileType=fileType, ConnectionToken=connectionToken
+        )
+
+        if result == "ACCESS_DENIED":
+            # Chat expired — start a new one
+            customer_name = message.message.get("customer_name", "NN")
+            text = message.get_text() or "New conversation with attachment"
+
+            contactId, participantToken, newConnectionToken = self.start_chat_and_stream(
+                text, message.phone_number, "Whatsapp", customer_name, message.phone_number_id
+            )
+
+            # Update connection in DynamoDB
+            contact = connections.get_contact(message.phone_number)
+            if contact:
+                connections.remove_contactId(contact["contactId"])
+            connections.update_contact(
+                message.phone_number, "Whatsapp", contactId,
+                participantToken, newConnectionToken, customer_name, message.phone_number_id
+            )
+
+            # Retry with new connection
+            attachment_id, error_str = self.attach_file(
+                fileContents=fileContents, fileName=fileName, fileType=fileType, ConnectionToken=newConnectionToken
+            )
+
+        return attachment_id, error_str
+
+
         
     def send_message(self, message, connectionToken):
         try:
@@ -149,14 +181,24 @@ class ChatService:
             AttachmentName=fileName,
             ConnectionToken=ConnectionToken
             )
-        except ClientError as e:
-            print("Error while creating attachment")
-            if(e.response['Error']['Code'] =='AccessDeniedException'):
-                print(e.response['Error'])
-                return None, e.response['Error']['Message']
-            elif(e.response['Error']['Code'] =='ValidationException'):
-                print(e.response['Error'])
-                return None, e.response['Error']['Message']
+        except self.participant.exceptions.AccessDeniedException as e:
+            print(f"Access denied: {e}. Check your IAM permissions or connection token validity.")
+            return None, "ACCESS_DENIED"
+        except self.participant.exceptions.InternalServerException as e:
+            print(f"Internal server error: {e}. Please try again later.")
+            return  None, "SERVER_EXCEPTION"
+        except self.participant.exceptions.ThrottlingException as e:
+            print(f"Request throttled: {e}. Reduce request frequency or implement backoff strategy.")
+            return  None, "THROTTILING"
+        except self.participant.exceptions.ValidationException as e:
+            print(f"Validation error: {e}. Check your message content and connection token format.")
+            return  None, "VALIDATION_ERROR"
+        except self.participant.exceptions.ServiceQuotaExceededException as e:
+            print(f"Service quota exceeded: {e}. Reduce message frequency or request quota increase.")
+            return  None, "QUOTA_ERROR"
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return  None, "UNEXEPECTED_ERROR"
         else:
             try:
                 upload_url = attachResponse['UploadMetadata']['Url']

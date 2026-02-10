@@ -10,6 +10,7 @@ logger.setLevel(logging.INFO)
 
 transcribe_service = TranscribeService()
 
+#TODO: Implementing new transcribe API?
 
 def lambda_handler(event, context):
     print(event)

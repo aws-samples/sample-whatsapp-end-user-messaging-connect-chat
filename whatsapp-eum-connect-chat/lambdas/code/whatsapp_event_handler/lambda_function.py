@@ -14,8 +14,6 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-# TODO: make sure chat exist before attaching a file.
-
 def get_extension_by_file_type(file_type):
     if "jpeg" in file_type: return "jpeg"
     if "png" in file_type: return "png"
@@ -50,14 +48,15 @@ def process_attachment(chat:ChatService, connections, message):
         contact = connections.get_contact(message.phone_number)
 
         if contact and contact.get("connectionToken"):
-            # Upload attachment to Connect chat
-            kwargs = dict(
+            logger.info(f"Uploading attachment: {file_name} {file_type}")
+            attachment_id, error_str = chat.attach_file_with_retry_connection(
+                message=message,
+                connections=connections,
                 fileContents=file_content,
                 fileName=file_name,
                 fileType=file_type,
+                connectionToken=contact["connectionToken"],
             )
-            logger.info(f"Uploading attachment: {file_name} {file_type}")
-            attachment_id, error_str = chat.attach_file(**kwargs, ConnectionToken=contact["connectionToken"]) # type: ignore
 
             if attachment_id:
                 logger.info(f"Successfully uploaded attachment: {attachment_id}")
@@ -65,7 +64,10 @@ def process_attachment(chat:ChatService, connections, message):
             else:
                 logger.error(f"Failed to upload attachment: {error_str}")
                 message.reaction("❌")
-                chat.send_message(f"[{error_str}]", contact["connectionToken"])
+                # Refresh contact in case connection was renewed
+                contact = connections.get_contact(message.phone_number)
+                if contact and contact.get("connectionToken"):
+                    chat.send_message(f"[{error_str}]", contact["connectionToken"])
     else:
         logger.error("Failed to retrieve attachment content")
         message.reaction("❌")
