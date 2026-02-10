@@ -11,14 +11,12 @@ class TranscribeClient(Construct):
         self.layer = _lambda.LayerVersion(
             self,
             "Transcribe Streaming",
-            code=_lambda.Code.from_asset("./layers/transcribe-client.zip"),
+            code=_lambda.Code.from_asset("./layers/transcribe-client-new.zip"),
             compatible_runtimes=[
-                _lambda.Runtime.PYTHON_3_10,
-                _lambda.Runtime.PYTHON_3_11,
                 _lambda.Runtime.PYTHON_3_12,
                 _lambda.Runtime.PYTHON_3_13,
             ],
-            description="Transcribe Streaming",
+            description="aws-sdk-transcribe-streaming",
         )
 
 
