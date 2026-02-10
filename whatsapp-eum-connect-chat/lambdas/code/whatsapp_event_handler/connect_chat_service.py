@@ -69,11 +69,11 @@ class ChatService:
 
     def attach_file_with_retry_connection(self, message, connections, fileContents, fileName, fileType, connectionToken):
         """Attach file with retry logic: if chat expired, start a new one and retry."""
-        attachment_id, result = self.attach_file(
+        attachment_id, error_str = self.attach_file(
             fileContents=fileContents, fileName=fileName, fileType=fileType, ConnectionToken=connectionToken
         )
 
-        if result == "ACCESS_DENIED":
+        if error_str == "ACCESS_DENIED":
             # Chat expired — start a new one
             customer_name = message.message.get("customer_name", "NN")
             text = message.get_text() or "New conversation with attachment"

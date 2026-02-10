@@ -21,15 +21,15 @@ The `WhatsappMessage.get_attachment()` method detects the `audio` type in the in
 
 ### 4. Audio Transcription
 
-The `transcribe_audio` Lambda (`lambdas/code/transcribe_audio/`) transcribes the original OGG audio:
+The `transcribe_audio` Lambda (`lambdas/code/transcribe_audio/`) transcribes the audio:
 
-- Uses the `amazon-transcribe-streaming` SDK (provided as a Lambda Layer)
-- Streams the audio from S3 to Amazon Transcribe Streaming in chunks of 8 KB
-- Configured for `ogg-opus` encoding at 48 kHz sample rate
-- Language is set to `es-US` (Spanish) — edit `transcribe.py` to change this
-- Collects partial results and joins them into a final transcription string
+- Uses the [`amazon-transcribe-streaming`](https://github.com/awslabs/aws-sdk-python/tree/develop/clients/aws-sdk-transcribe-streaming) SDK (provided as a Lambda Layer)
+- Auto-detects audio format from the S3 key extension via `_get_format_config()` (defaults to `ogg-opus` at 48 kHz)
+- Streams the audio from S3 to Amazon Transcribe Streaming in 8 KB chunks with pacing delays calculated from sample rate, bytes per sample, and channels
+- Language is set to `es-US` (Spanish) — edit the `LANGUAGE_CODE` constant in `transcribe.py` to change this
+- Collects only non-partial transcript results and joins them into a final transcription string
 
-The `TranscribeService` class handles the async streaming protocol: it reads the S3 object, sends audio chunks with pacing delays to respect real-time constraints, and a custom `MyEventHandler` accumulates non-partial transcript results.
+The `TranscribeService` class handles the full async streaming protocol: it downloads the S3 object, sends audio chunks via `write_chunks()`, and the `handle_events()` method accumulates final (non-partial) transcript results from the output stream. Both run concurrently using `asyncio.gather`.
 
 ### 5. Transcription Delivery
 
@@ -40,11 +40,17 @@ Back in the inbound handler, once the transcription is returned:
 
 ## Configuration
 
-The transcription language and sample rate can be changed in `lambdas/code/transcribe_audio/transcribe.py`:
+The transcription language can be changed in `lambdas/code/transcribe_audio/transcribe.py`:
 
 ```python
-SAMPLE_RATE = 48000          # Match your audio source
-language_code = "es-US"      # Change to your target language
-media_encoding = "ogg-opus"  # Encoding of the source audio
+LANGUAGE_CODE = "es-US"      # Change to your target language
 ```
+
+The sample rate and media encoding are auto-detected from the S3 key extension by `_get_format_config()`. Currently supported formats:
+
+| Extension | Encoding | Sample Rate |
+|-----------|----------|-------------|
+| `.ogg`, `.opus` | `ogg-opus` | 48 kHz |
+
+To add new formats, extend the `_get_format_config()` function in `transcribe.py`.
 
