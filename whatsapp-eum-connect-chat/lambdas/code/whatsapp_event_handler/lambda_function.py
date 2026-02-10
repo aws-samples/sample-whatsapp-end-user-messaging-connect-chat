@@ -81,6 +81,7 @@ def process_attachment(chat:ChatService, connections, message):
 
         # transcribe using Amazon Transcribe
         transcription = transcribe_audio( message.attachment.get("location"))
+        print ("transcription OK", transcription)
         message.add_transcription(transcription)
 
 
@@ -99,7 +100,7 @@ def process_message(chat: ChatService, connections:ConnectionsService, message:W
     if message.transcription:
         # Reply the transcription to the user
         message.text_reply(f"🔊_{message.transcription}_")
-        text = message.transcription
+        text = message.transcription[:997] +"..."
 
     customer_name = message.message.get("customer_name", "NN")
     newContactId = None
