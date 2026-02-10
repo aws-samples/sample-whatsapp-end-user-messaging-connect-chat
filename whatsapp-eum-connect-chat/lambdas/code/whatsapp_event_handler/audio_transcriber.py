@@ -2,10 +2,14 @@ import json
 import os
 import logging
 import boto3
+from botocore.config import Config
+
 
 logger = logging.getLogger()
-lambda_client = boto3.client('lambda')
-
+lambda_client = boto3.client('lambda', config=Config(
+    read_timeout=300,
+    connect_timeout=10
+))
 
 def transcribe_audio(location: str) -> str:
     """
