@@ -35,7 +35,7 @@ class MyEventHandler(TranscriptResultStreamHandler):
         # Here's an example to get started.
         results = transcript_event.transcript.results
         for result in results:
-            if not result.is_partial:
+            if not result.is_partial:  # nosemgrep: is-function-without-parentheses
                 for alt in result.alternatives:
                     self.transcript.append(alt.transcript)
                     return alt.transcript
