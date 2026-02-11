@@ -35,10 +35,7 @@ class MyEventHandler(TranscriptResultStreamHandler):
         # Here's an example to get started.
         results = transcript_event.transcript.results
         for result in results:
-            # amazonq-ignore-next-line
-            print (f"is_partial:", result.is_partial)
-            if result.is_partial == False:
-                
+            if not result.is_partial:
                 for alt in result.alternatives:
                     self.transcript.append(alt.transcript)
                     return alt.transcript

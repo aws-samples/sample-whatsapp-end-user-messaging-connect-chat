@@ -21,15 +21,18 @@ The `WhatsappMessage.get_attachment()` method detects the `audio` type in the in
 
 ### 4. Audio Transcription
 
+The `whatsapp_event_handler` Lambda invokes the `transcribe_audio` Lambda synchronously via `audio_transcriber.py`, which calls `lambda_client.invoke` with the S3 location as payload (`{'location': s3_uri}`). The transcribe Lambda returns the transcription in the response body.
+
 The `transcribe_audio` Lambda (`lambdas/code/transcribe_audio/`) transcribes the audio:
 
 - Uses the [`amazon-transcribe-streaming`](https://github.com/awslabs/aws-sdk-python/tree/develop/clients/aws-sdk-transcribe-streaming) SDK (provided as a Lambda Layer)
-- Auto-detects audio format from the S3 key extension via `_get_format_config()` (defaults to `ogg-opus` at 48 kHz)
-- Streams the audio from S3 to Amazon Transcribe Streaming in 8 KB chunks with pacing delays calculated from sample rate, bytes per sample, and channels
-- Language is set to `es-US` (Spanish) — edit the `LANGUAGE_CODE` constant in `transcribe.py` to change this
+- Audio format is hardcoded to `ogg-opus` at 48 kHz (`SAMPLE_RATE = 48000`)
+- Streams the audio from S3 to Amazon Transcribe Streaming in 8 KB chunks with pacing delays calculated as `CHUNK_SIZE * 16 / (SAMPLE_RATE * BYTES_PER_SAMPLE * CHANNEL_NUMS)`
+- Language is hardcoded to `es-US` (Spanish) in the `basic_transcribe()` method — edit the `language_code` parameter in `transcribe.py` to change this
 - Collects only non-partial transcript results and joins them into a final transcription string
+- The `transcribe()` method includes a `batch` parameter for future batch transcription support (not yet implemented)
 
-The `TranscribeService` class handles the full async streaming protocol: it downloads the S3 object, sends audio chunks via `write_chunks()`, and the `handle_events()` method accumulates final (non-partial) transcript results from the output stream. Both run concurrently using `asyncio.gather`.
+The `TranscribeService` class handles the full async streaming protocol: it downloads the S3 object, sends audio chunks via `write_chunks()`, and the `MyEventHandler.handle_transcript_event()` method accumulates final (non-partial) transcript results from the output stream. Both run concurrently using `asyncio.gather`.
 
 ### 5. Transcription Delivery
 
@@ -40,17 +43,11 @@ Back in the inbound handler, once the transcription is returned:
 
 ## Configuration
 
-The transcription language can be changed in `lambdas/code/transcribe_audio/transcribe.py`:
+The transcription language can be changed in the `basic_transcribe()` method in `lambdas/code/transcribe_audio/transcribe.py`:
 
 ```python
-LANGUAGE_CODE = "es-US"      # Change to your target language
+language_code="es-US",      # Change to your target language
 ```
 
-The sample rate and media encoding are auto-detected from the S3 key extension by `_get_format_config()`. Currently supported formats:
-
-| Extension | Encoding | Sample Rate |
-|-----------|----------|-------------|
-| `.ogg`, `.opus` | `ogg-opus` | 48 kHz |
-
-To add new formats, extend the `_get_format_config()` function in `transcribe.py`.
+The audio format is hardcoded to `ogg-opus` at 48 kHz. To support additional formats, modify the `media_encoding` and `media_sample_rate_hz` parameters in the `basic_transcribe()` method in `transcribe.py`.
 
