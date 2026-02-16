@@ -10,7 +10,7 @@ This repository provides code samples and patterns for integrating WhatsApp Busi
 | **[Message Buffering & Aggregation](./whatsapp-eum-connect-chat/README.md)** | Buffers rapid consecutive WhatsApp messages using DynamoDB Streams and aggregates them before forwarding to Amazon Connect. Prevents multiple chat messages from message bursts reducing downfall associated costs per invocation / per chat. | CDK Python |
 | **[Whatsapp voice notes handling](./whatsapp-eum-connect-chat/voice_notes.md)** | Automatically transcribes WhatsApp voice messages using Amazon Transcribe Streamning and converts audio formats (OGG to WAV) for Amazon Connect attachments compatibility. Enables voice-to-text workflows. | CDK Python |
 | **[Attachments Handling](./whatsapp-eum-connect-chat/attachment_handling.md)** | Processes WhatsApp media attachments (images, documents, audio) with S3 storage, format conversion, and secure delivery to Amazon Connect agents. Connect attachments delivered to Whatsapp Users | CDK Python |
-| **Outbound Messaging** *(Coming Soon)* | WhatsApp messages to customers from Amazon Connect agent Workspace | CDK Python
+| **[Agent Initiated Messages](./agent-initiated-whatsapp/README.md)**  | WhatsApp messages to customers from Amazon Connect agent Workspace | CDK Python + Configuraiton
 
 
 ## General deployment Instructions
