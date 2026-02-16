@@ -1,0 +1,267 @@
+{
+    "Version": "2019-10-30",
+    "StartAction": "a222f908-50ff-41fd-aa58-f36ecebe19d4",
+    "Metadata": {
+        "entryPointPosition": {
+            "x": -607.2,
+            "y": -168.8
+        },
+        "ActionMetadata": {
+            "set attributes": {
+                "position": {
+                    "x": -280,
+                    "y": 21.6
+                },
+                "isFriendlyName": true,
+                "dynamicParams": []
+            },
+            "03ee8fe5-433a-4e73-a235-76d4ca754fea": {
+                "position": {
+                    "x": -279.2,
+                    "y": 320
+                }
+            },
+            "7cb36cf2-b11b-42ca-9a53-81c9079741ed": {
+                "position": {
+                    "x": -524.8,
+                    "y": 24.8
+                },
+                "parameters": {
+                    "ViewResource": {
+                        "Id": {
+                            "displayName": "WHATSAPP_FORM"
+                        }
+                    },
+                    "InvocationTimeLimitSeconds": {
+                        "unit": 60
+                    },
+                    "ViewData": {
+                        "fullName": {
+                            "useDynamic": true
+                        },
+                        "input1": {
+                            "useDynamic": true
+                        },
+                        "input2": {
+                            "useDynamic": true
+                        },
+                        "input3": {
+                            "useDynamic": true
+                        },
+                        "input4": {
+                            "useDynamic": true
+                        },
+                        "whatsappNumber": {
+                            "useDynamic": true
+                        }
+                    }
+                }
+            },
+            "a222f908-50ff-41fd-aa58-f36ecebe19d4": {
+                "position": {
+                    "x": -498.4,
+                    "y": -168.8
+                }
+            },
+            "da71cc41-8a79-4520-8c19-01f4a8dc81be": {
+                "position": {
+                    "x": -264.8,
+                    "y": -196.8
+                },
+                "parameters": {
+                    "LambdaFunctionARN": {
+                        "displayName": "GET_CUSTOMER_DATA"
+                    }
+                },
+                "dynamicMetadata": {}
+            },
+            "bab6c297-2a43-482c-899c-ba089d7b3257": {
+                "position": {
+                    "x": -26.4,
+                    "y": -35.2
+                },
+                "parameters": {
+                    "LambdaFunctionARN": {
+                        "displayName": "SEND_WHATSAPP"
+                    }
+                },
+                "dynamicMetadata": {}
+            },
+            "a0c3aef3-d4c7-4de1-8aa3-73a378389f22": {
+                "position": {
+                    "x": 221.6,
+                    "y": 389.6
+                }
+            },
+            "29f37d9a-9850-4723-bf08-9edb27d10e9f": {
+                "position": {
+                    "x": -26.4,
+                    "y": 224
+                }
+            }
+        },
+        "Annotations": []
+    },
+    "Actions": [
+        {
+            "Parameters": {
+                "Attributes": {
+                    "whatsapp": "$.Views.ViewResultData.whatsapp",
+                    "input1": "$.Views.ViewResultData.input1",
+                    "input2": "$.Views.ViewResultData.input2",
+                    "input3": "$.Views.ViewResultData.input3",
+                    "input4": "$.Views.ViewResultData.input4",
+                    "fullName": "$.Views.ViewResultData.fullName"
+                },
+                "TargetContact": "Current"
+            },
+            "Identifier": "set attributes",
+            "Type": "UpdateContactAttributes",
+            "Transitions": {
+                "NextAction": "bab6c297-2a43-482c-899c-ba089d7b3257",
+                "Errors": [
+                    {
+                        "NextAction": "bab6c297-2a43-482c-899c-ba089d7b3257",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "Text": "No match, timout or error after showView"
+            },
+            "Identifier": "03ee8fe5-433a-4e73-a235-76d4ca754fea",
+            "Type": "MessageParticipant",
+            "Transitions": {
+                "NextAction": "a0c3aef3-d4c7-4de1-8aa3-73a378389f22",
+                "Errors": [
+                    {
+                        "NextAction": "a0c3aef3-d4c7-4de1-8aa3-73a378389f22",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "ViewResource": {
+                    "Id": "FORM_VIEW_ARN"
+                },
+                "InvocationTimeLimitSeconds": "180",
+                "ViewData": {
+                    "fullName": "$.External.fullName",
+                    "input1": "$.External.input1",
+                    "input2": "$.External.input2",
+                    "input3": "$.External.input3",
+                    "input4": "$.External.input4",
+                    "whatsappNumber": "$.External.phoneNumber"
+                }
+            },
+            "Identifier": "7cb36cf2-b11b-42ca-9a53-81c9079741ed",
+            "Type": "ShowView",
+            "Transitions": {
+                "NextAction": "03ee8fe5-433a-4e73-a235-76d4ca754fea",
+                "Conditions": [
+                    {
+                        "NextAction": "set attributes",
+                        "Condition": {
+                            "Operator": "Equals",
+                            "Operands": [
+                                "enviarWhatsapp"
+                            ]
+                        }
+                    }
+                ],
+                "Errors": [
+                    {
+                        "NextAction": "03ee8fe5-433a-4e73-a235-76d4ca754fea",
+                        "ErrorType": "NoMatchingCondition"
+                    },
+                    {
+                        "NextAction": "03ee8fe5-433a-4e73-a235-76d4ca754fea",
+                        "ErrorType": "NoMatchingError"
+                    },
+                    {
+                        "NextAction": "03ee8fe5-433a-4e73-a235-76d4ca754fea",
+                        "ErrorType": "TimeLimitExceeded"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "FlowLoggingBehavior": "Enabled"
+            },
+            "Identifier": "a222f908-50ff-41fd-aa58-f36ecebe19d4",
+            "Type": "UpdateFlowLoggingBehavior",
+            "Transitions": {
+                "NextAction": "da71cc41-8a79-4520-8c19-01f4a8dc81be"
+            }
+        },
+        {
+            "Parameters": {
+                "LambdaFunctionARN": "GET_CUSTOMER_DATA_FUNCTION_ARN",
+                "InvocationTimeLimitSeconds": "8",
+                "InvocationType": "SYNCHRONOUS",
+                "ResponseValidation": {
+                    "ResponseType": "STRING_MAP"
+                }
+            },
+            "Identifier": "da71cc41-8a79-4520-8c19-01f4a8dc81be",
+            "Type": "InvokeLambdaFunction",
+            "Transitions": {
+                "NextAction": "7cb36cf2-b11b-42ca-9a53-81c9079741ed",
+                "Errors": [
+                    {
+                        "NextAction": "7cb36cf2-b11b-42ca-9a53-81c9079741ed",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "LambdaFunctionARN": "SEND_WHATSAPP_FUNCTION_ARN",
+                "InvocationTimeLimitSeconds": "8",
+                "InvocationType": "SYNCHRONOUS",
+                "ResponseValidation": {
+                    "ResponseType": "STRING_MAP"
+                }
+            },
+            "Identifier": "bab6c297-2a43-482c-899c-ba089d7b3257",
+            "Type": "InvokeLambdaFunction",
+            "Transitions": {
+                "NextAction": "29f37d9a-9850-4723-bf08-9edb27d10e9f",
+                "Errors": [
+                    {
+                        "NextAction": "29f37d9a-9850-4723-bf08-9edb27d10e9f",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {},
+            "Identifier": "a0c3aef3-d4c7-4de1-8aa3-73a378389f22",
+            "Type": "DisconnectParticipant",
+            "Transitions": {}
+        },
+        {
+            "Parameters": {
+                "Text": "Lambda Invocada : $.External.result"
+            },
+            "Identifier": "29f37d9a-9850-4723-bf08-9edb27d10e9f",
+            "Type": "MessageParticipant",
+            "Transitions": {
+                "NextAction": "a0c3aef3-d4c7-4de1-8aa3-73a378389f22",
+                "Errors": [
+                    {
+                        "NextAction": "a0c3aef3-d4c7-4de1-8aa3-73a378389f22",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        }
+    ]
+}
