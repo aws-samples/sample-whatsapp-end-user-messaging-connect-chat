@@ -9,7 +9,7 @@ import config
 
 
 def load_flow_content(file_name):
-    with open(file_name) as f:
+    with open(file_name, encoding="utf-8") as f:
         return json.dumps(json.load(f))
 
 
