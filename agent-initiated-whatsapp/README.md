@@ -243,6 +243,7 @@ The agent can now navigate to the custom page and use the guide to send WhatsApp
 
 When the agent navigates to the custom page, they are presented with a Connect Application, which executes the contact flow. The flow displays the form with pre-populated values from the customer data Lambda, giving the agent the opportunity to review, modify, and send. Once the agent submits, the send WhatsApp Lambda is invoked with all the form parameters to deliver the final message.
 
+
 <div align="center">
 <video width="540" controls>
   <source src="./demo_whastapp_saliente.mp4" type="video/mp4">
