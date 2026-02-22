@@ -246,6 +246,6 @@ When the agent navigates to the custom page, they are presented with a Connect A
 
 <div align="center">
 <video width="540" controls>
-  <source src="demo_whastapp_saliente.mp4" type="video/mp4">
+  <source src="video/demo_whastapp_saliente.mp4" type="video/mp4">
 </video>
 </div>
