@@ -157,6 +157,6 @@ Try sending a rapid sequence of messages files and see how they arrives to Amazo
 
 <div align="center">
 <video width="540" controls>
-  <source src="./demo_eum_whatsapp.mp4" type="video/mp4">
+  <source src="demo_eum_whatsapp.mp4" type="video/mp4">
 </video>
 </div>
