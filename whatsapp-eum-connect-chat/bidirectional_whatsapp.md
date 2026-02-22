@@ -115,8 +115,8 @@ In order to test, go to your Amazon Connect Instance and [Open Contact control P
 Try with voice notes, photos, files and see how they arrives to Amazon connect. Also try sending a file from the Agent to the user.
 
 
+
 <div align="center">
-<video width="540" controls>
-  <source src="https://github.com/user-attachments/assets/652683f2-5a5c-4a35-ad82-c80f0f3fe275" type="video/mp4">
-</video>
+<video src="https://github.com/user-attachments/assets/652683f2-5a5c-4a35-ad82-c80f0f3fe275" width="540" controls></video>
 </div>
+

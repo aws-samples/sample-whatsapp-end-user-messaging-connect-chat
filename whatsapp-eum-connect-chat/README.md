@@ -156,7 +156,5 @@ In order to test, go to your Amazon Connect Instance and [Open Contact control P
 Try sending a rapid sequence of messages files and see how they arrives to Amazon connect. 
 
 <div align="center">
-<video width="540" controls>
-  <source src="https://github.com/user-attachments/assets/652683f2-5a5c-4a35-ad82-c80f0f3fe275" type="video/mp4">
-</video>
+<video src="https://github.com/user-attachments/assets/652683f2-5a5c-4a35-ad82-c80f0f3fe275" width="540" controls></video>
 </div>
