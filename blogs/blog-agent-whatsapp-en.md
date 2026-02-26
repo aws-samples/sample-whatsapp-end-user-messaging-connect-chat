@@ -70,19 +70,19 @@ A WhatsApp message template created in End User Messaging (see the [Template Cre
 
 ⚠️ Deploy in the same region where your AWS End User Messaging WhatsApp numbers are configured.
 
-### 1. Set the Instance ID
+
+### 1. Clone the repository and navigate to the project
+
+```bash
+git clone https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat.git
+cd sample-whatsapp-end-user-messaging-connect-chat/agent-initiated-whatsapp
+```
+### 2. Set the Instance ID
 
 Edit `config.py` and set your Amazon Connect Instance ID:
 
 ```python
 INSTANCE_ID = "<your-connect-instance-id>"
-```
-
-### 2. Clone the repository and navigate to the project
-
-```bash
-git clone https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat.git
-cd sample-whatsapp-end-user-messaging-connect-chat/agent-initiated-whatsapp
 ```
 
 ### 3. Deploy with CDK
