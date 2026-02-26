@@ -9,6 +9,8 @@
 
 When customers reach out via WhatsApp, they rarely send a single message. They type fast: "Hello", "I need help", "with my order", "P12345". Each of those messages triggers a separate webhook event, and without any optimization, each one creates a separate chat message in Amazon Connect. The result? A fragmented conversation, a confused agent, and unnecessary costs.
 
+In AI-powered chats, we usually prevent users from sending additional messages while the agent is still processing. Unfortunately, with asynchronous and programmatic messages, we can't control that. But we can control how long we wait before starting to answer. This blog not only helps with WhatsApp-to-Connect scenarios but applies to every chat channel that faces the same challenge — SMS, social media DMs, and more.
+
 In this blog, you'll learn how to solve that with a message buffering layer that aggregates rapid consecutive WhatsApp messages into a single, coherent message before forwarding them to Amazon Connect.
 
 Check out the code at [https://github.com/aws-samples](https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat)
@@ -282,7 +284,9 @@ Try sending a rapid sequence of messages and see how they arrive as a single agg
 
 ## Next Steps
 
-This solution is a starting point. Some ideas to extend it:
+While this blog focuses on WhatsApp and Amazon Connect, the buffering pattern applies broadly. Any chat channel where users send rapid, asynchronous messages — SMS, social media DMs, or custom integrations — can benefit from the same approach. If you can't prevent users from sending multiple messages while a response is being processed, you can at least control how long you wait before acting on them.
+
+Some ideas to extend this solution:
 
 - Adjust the buffer window based on your use case (shorter for real-time, longer for cost savings)
 - Add a Dead Letter Queue for failed stream processing
