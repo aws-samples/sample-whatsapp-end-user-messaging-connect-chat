@@ -27,7 +27,7 @@ Todo orquestado por un Contact Flow, funciones Lambda y un formulario (Connect v
 ## Arquitectura
 
 
-![Diagrama de Arquitectura](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/agent-initiated-whatsapp.svg?raw=true)
+![Diagrama de Arquitectura](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/agent-initiated-whatsapp.png)
 
 El flujo es el siguiente:
 
@@ -58,12 +58,12 @@ Necesitarás el **INSTANCE_ID** de tu instancia. Lo puedes encontrar en la conso
 
 `arn:aws:connect:<region>:<account_id>:instance/INSTANCE_ID`
 
-(consulta la [Prerequisitos Whatsapp / Connect](../general_connect_eum.md) mara mayores detalles) 
+(consulta la [Prerequisitos Whatsapp / Connect](https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/blob/main/general_connect_eum.md) mara mayores detalles) 
 
 
 ### Creación de plantillas de mensajes de WhatsApp 
 
-Una plantilla de mensaje de WhatsApp creada en End User Messaging (consulta la [Guía de creación de plantillas](../general_template_creation.md))
+Una plantilla de mensaje de WhatsApp creada en End User Messaging (consulta la [Guía de creación de plantillas](https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/blob/main/general_template_creation.md))
 
 
 ## Despliegue con AWS CDK
@@ -87,7 +87,7 @@ cd sample-whatsapp-end-user-messaging-connect-chat/agent-initiated-whatsapp
 
 ### 3. Despliega con CDK
 
-Sigue las instrucciones de la [Guía de despliegue CDK](../general_cdk_deploy.md).
+Sigue las instrucciones de la [Guía de despliegue CDK](https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/blob/main/general_cdk_deploy.md).
 
 ## Configuración post-despliegue
 
@@ -137,7 +137,7 @@ https://<tu-instancia>.my.connect.aws/views
 
 Busca la vista llamada `enviarWhatsAppForm007`. Este es el formulario que los agentes usarán para revisar los datos del cliente y enviar el mensaje.
 
-![Formulario desplegado](../agent-initiated-whatsapp/form.png)
+![Formulario desplegado](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/form.png)
 
 _Nota: el campo de WhatsApp es de tipo password para ocultar el número. Incluso podría no ser parte del formulario y acceder al dato usando [Attributos de Contacto](https://docs.aws.amazon.com/connect/latest/adminguide/connect-contact-attributes.html)_
 
@@ -145,7 +145,7 @@ _Nota: el campo de WhatsApp es de tipo password para ocultar el número. Incluso
 
 Navega al flujo de contacto `SendWhatsAppGuideFlow007` en tu consola de Amazon Connect.
 
-![Contact Flow](../agent-initiated-whatsapp/flow.png)
+![Contact Flow](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/flow.png)
 
 #### 3.1 Configura la primera Lambda (Obtener datos del cliente)
 
@@ -223,7 +223,7 @@ https://<tu-instancia>.my.connect.aws/views
 
 Crea una nueva vista de tipo **Guide**.
 
-![Crear Vista](../agent-initiated-whatsapp/create_view.png)
+![Crear Vista](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/create_view.png)
 
 #### 4.1 Agrega un componente Connect Application
 
@@ -233,7 +233,7 @@ Arrastra un componente **Connect Application** al canvas.
 
 Establece el `contactFlowId` con el flujo de contacto desplegado `SendWhatsAppGuideFlow007`.
 
-![Crear Guía](../agent-initiated-whatsapp/create_guide.png)
+![Crear Guía](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/create_guide.png)
 
 #### 4.3 Nombra y publica
 
@@ -251,7 +251,7 @@ https://<tu-instancia>.my.connect.aws/workspaces
 
 Haz clic en **Add new workspace** y completa el nombre, descripción y título.
 
-![Crear Workspace](../agent-initiated-whatsapp/create_workspace.png)
+![Crear Workspace](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/create_workspace.png)
 
 Asigna este workspace a los usuarios o perfiles de enrutamiento que necesites.
 
@@ -265,7 +265,7 @@ Usa un slug personalizado como:
 /page/send_whatsapp
 ```
 
-![Agregar Página](../agent-initiated-whatsapp/add_page.png)
+![Agregar Página](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/add_page.png)
 
 Guarda la página.
 
@@ -273,7 +273,7 @@ Guarda la página.
 
 Selecciona tu workspace personalizado desde la barra de navegación superior en el Agent Workspace.
 
-![Seleccionar Workspace](../agent-initiated-whatsapp/select_workspace.png)
+![Seleccionar Workspace](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/select_workspace.png)
 
 El agente ahora puede navegar a la página personalizada y usar la guía para enviar mensajes de plantilla de WhatsApp a los clientes.
 
@@ -298,7 +298,10 @@ Esta solución es un punto de partida. Algunas ideas para extenderla:
 ## Recursos
 
 - [Repositorio del proyecto](https://github.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat)
-- [Guía de creación de plantillas](../general_template_creation.md)
-- [Guía de prerrequisitos](../general_connect_eum.md)
-- [Guía de despliegue CDK](../general_cdk_deploy.md)
+- [Amazon Connect Administrator Guide](https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html)
+- [Amazon Connect API Reference](https://docs.aws.amazon.com/connect/latest/APIReference/Welcome.html)
+- [AWS End User Messaging Social - SendWhatsAppMessage API](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_SendWhatsAppMessage.html)
+- [AWS End User Messaging Social User Guide](https://docs.aws.amazon.com/social-messaging/latest/userguide/what-is-service.html)
+- [WhatsApp Business Platform - Template Message Structure](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-message-templates)
+- [WhatsApp Business Platform - Template Components Reference](https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#template-object)
 
