@@ -101,6 +101,9 @@ The tumbling window is the key to the buffering strategy. DynamoDB Streams trigg
 
 Each shard invokes one Lambda, so messages from the same user within that window are processed altogether.
 
+Look [here](https://aws.amazon.com/es/blogs/database/build-scalable-event-driven-architectures-with-amazon-dynamodb-and-aws-lambda/) if you want to dive deep.
+
+
 ### 3. Aggregation Logic
 
 The aggregator groups messages by sender, sorts them by timestamp, and concatenates consecutive text messages with newlines. Non-text messages (images, audio, documents, etc.) are preserved as separate items.
@@ -300,4 +303,4 @@ Some ideas to extend this solution:
 - [Amazon Connect API Reference](https://docs.aws.amazon.com/connect/latest/APIReference/Welcome.html)
 - [AWS End User Messaging Social User Guide](https://docs.aws.amazon.com/social-messaging/latest/userguide/what-is-service.html)
 - [DynamoDB Streams Developer Guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html)
-- [DynamoDB Streams and Lambda Tumbling Windows](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html)
+- [Build scalable, event-driven architectures with Amazon DynamoDB and AWS Lambda](https://aws.amazon.com/es/blogs/database/build-scalable-event-driven-architectures-with-amazon-dynamodb-and-aws-lambda/)
