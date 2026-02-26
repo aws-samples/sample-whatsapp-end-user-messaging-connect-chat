@@ -4,7 +4,7 @@
    _Aprende a construir una experiencia de mensajería proactiva por WhatsApp desde Amazon Connect, permitiendo a los agentes de atención al cliente enviar mensajes de plantilla de WhatsApp con un solo clic desde el Agent Workspace. Esta guía paso a paso cubre la arquitectura completa usando AWS CDK, AWS Lambda, AWS End User Messaging Social y Amazon Connect, incluyendo la configuración de Contact Flows, formularios personalizados (Views), y funciones Lambda para obtener datos del cliente y enviar mensajes. Ideal para equipos que buscan automatizar y simplificar la comunicación saliente por WhatsApp sin salir de la consola de Amazon Connect._
 
 
-![Demo](../agent-initiated-whatsapp/demo_whatsapp_saliente.gif)
+![Demo](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/demo_whatsapp_saliente.gif)
 
 
 ¿Tu equipo de atención al cliente necesita enviar mensajes proactivos por WhatsApp? Imagina que un agente pueda, desde su escritorio de Amazon Connect, enviar un mensaje de plantilla de WhatsApp a un cliente con un solo clic. Sin salir de la consola, sin copiar y pegar números, sin errores.
@@ -26,7 +26,8 @@ Todo orquestado por un Contact Flow, funciones Lambda y un formulario (Connect v
 
 ## Arquitectura
 
-![Diagrama de Arquitectura](../agent-initiated-whatsapp/agent-initiated-whatsapp.svg)
+
+![Diagrama de Arquitectura](https://raw.githubusercontent.com/aws-samples/sample-whatsapp-end-user-messaging-connect-chat/main/agent-initiated-whatsapp/agent-initiated-whatsapp.svg?raw=true)
 
 El flujo es el siguiente:
 
