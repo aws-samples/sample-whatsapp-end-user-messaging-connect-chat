@@ -52,7 +52,18 @@ WhatsApp messages aren't just text. The webhook payload from Meta includes a `ty
 | `sticker` | `sticker` | WhatsApp stickers |
 | `reaction` | `reaction` | Emoji reactions to messages |
 
+
+
 Not all of these are useful in a customer service context. Stickers and reactions typically add noise rather than value, so the solution makes them configurable — you can ignore them via the SSM parameter:
+
+### Supported Attachment Types in this project
+
+| Direction | Images | Documents | Audio | Video | Stickers | Reactions
+|---|---|---|---|---|---|---|
+| Inbound (WhatsApp → Connect) | ✅ | ✅ | ✅ (converted + transcribed) | N/I | Configurable | N/I
+| Outbound (Connect → WhatsApp) | ✅ | ✅ | — | — | — | - 
+
+N/I: Not implemented here, but feasible.
 
 ```json
 {
@@ -60,8 +71,6 @@ Not all of these are useful in a customer service context. Stickers and reaction
   "ignore_stickers": "yes"
 }
 ```
-
-The inbound handler checks these flags early and skips processing entirely for ignored types, keeping your Lambda invocations lean.
 
 For media types (`image`, `document`, `audio`, `video`), the message payload includes a `media_id` that you use to download the actual file content. The file itself isn't in the webhook — you need to fetch it separately.
 
@@ -86,6 +95,7 @@ def get_attachment(self, download=True):
         attachment = self.message.get("video")
     elif self.message.get("sticker"):
         attachment = self.message.get("sticker")
+    # reactions not implemented
 
     if not attachment:
         return {}
@@ -138,14 +148,6 @@ def attach_file(self, fileContents, fileName, fileType, ConnectionToken):
     )
 ```
 
-### Supported Attachment Types
-
-| Direction | Images | Documents | Audio | Video | Stickers | Reactions
-|---|---|---|---|---|---|---|
-| Inbound (WhatsApp → Connect) | ✅ | ✅ | ✅ (converted + transcribed) | N/I | Configurable | Configurable
-| Outbound (Connect → WhatsApp) | ✅ | ✅ | — | — | — | - 
-
-N/I: Not implemented here, but feasible.
 
 ## Outbound: Amazon Connect → WhatsApp
 
@@ -233,7 +235,9 @@ The same pattern — intercept, process, forward — can be extended to other at
 
 The inbound handler is designed to be extensible — you can add processing steps between the download and the upload to Connect without changing the overall flow.
 
-## Prerequisites
+
+
+## Deployment Prerequisites
 
 Before getting started you'll need:
 
