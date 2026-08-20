@@ -1,18 +1,18 @@
 [
     {
-        "eventID": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "eventID": "c8782ad4fefe530a1d7a1f39b29b4dde",
         "eventName": "INSERT",
         "eventVersion": "1.1",
         "eventSource": "aws:dynamodb",
         "awsRegion": "us-east-1",
         "dynamodb": {
-            "ApproximateCreationDateTime": 1762843884.0,
+            "ApproximateCreationDateTime": 1787206152.0,
             "Keys": {
                 "from": {
-                    "S": "14157470265"
+                    "S": "US.26852818834383302"
                 },
                 "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                    "S": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQUYwMzQ4NDU5N0QyQTM3QzQ1OQA="
                 }
             },
             "NewImage": {
@@ -31,6 +31,9 @@
                 },
                 "contact": {
                     "M": {
+                        "user_id": {
+                            "S": "US.26852818834383302"
+                        },
                         "profile": {
                             "M": {
                                 "name": {
@@ -53,10 +56,10 @@
                                 {
                                     "M": {
                                         "wabaId": {
-                                            "S": "509609192225796"
+                                            "S": "1211825633713849"
                                         },
                                         "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
+                                            "S": "arn:aws:social-messaging:us-east-1:461004555540:waba/f82bcb4007ef4f63b11337bc418d0e2f"
                                         }
                                     }
                                 }
@@ -70,7 +73,7 @@
                                             "S": "503650672828631"
                                         },
                                         "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
+                                            "S": "arn:aws:social-messaging:us-east-1:461004555540:phone-number-id/970d37487dd9441cb22236b690546af6"
                                         }
                                     }
                                 }
@@ -79,344 +82,35 @@
                     }
                 },
                 "from": {
+                    "S": "US.26852818834383302"
+                },
+                "from_phone_number": {
                     "S": "14157470265"
                 },
                 "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                    "S": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQUYwMzQ4NDU5N0QyQTM3QzQ1OQA="
                 },
                 "text": {
                     "M": {
                         "body": {
-                            "S": "A"
+                            "S": "1234"
                         }
                     }
                 },
                 "type": {
                     "S": "text"
                 },
-                "timestamp": {
-                    "S": "1762843882"
-                }
-            },
-            "SequenceNumber": "XXXXXXXXXXXXXXXXXXXXXX",
-            "SizeBytes": 656,
-            "StreamViewType": "NEW_IMAGE"
-        },
-        "eventSourceARN": "arn:aws:dynamodb:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:table/WABA-BUFFER-MSGS-TRawMessagesXXXXXXXXXXXXADXXXXXXXXXXXX-XXXXXXXXXXXXGCUBMJPJXXXXXXXXXXXXAX/stream/XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXTXXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX.XXXXXXXXXXXX"
-    },
-    {
-        "eventID": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "eventName": "INSERT",
-        "eventVersion": "1.1",
-        "eventSource": "aws:dynamodb",
-        "awsRegion": "us-east-1",
-        "dynamodb": {
-            "ApproximateCreationDateTime": 1762843885.0,
-            "Keys": {
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                }
-            },
-            "NewImage": {
-                "metadata": {
-                    "M": {
-                        "phone_number_id": {
-                            "S": "503650672828631"
-                        },
-                        "display_phone_number": {
-                            "S": "56227607895"
-                        }
-                    }
-                },
-                "field": {
-                    "S": "messages"
-                },
-                "contact": {
-                    "M": {
-                        "profile": {
-                            "M": {
-                                "name": {
-                                    "S": "Kike"
-                                }
-                            }
-                        },
-                        "wa_id": {
-                            "S": "14157470265"
-                        }
-                    }
-                },
-                "messaging_product": {
-                    "S": "whatsapp"
-                },
-                "context": {
-                    "M": {
-                        "MetaWabaIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "wabaId": {
-                                            "S": "509609192225796"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        "MetaPhoneNumberIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "metaPhoneNumberId": {
-                                            "S": "503650672828631"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                },
-                "text": {
-                    "M": {
-                        "body": {
-                            "S": "B"
-                        }
-                    }
-                },
-                "type": {
-                    "S": "text"
+                "from_user_id": {
+                    "S": "US.26852818834383302"
                 },
                 "timestamp": {
-                    "S": "1762843883"
+                    "S": "1787206150"
                 }
             },
-            "SequenceNumber": "XXXXXXXXXXXXXXXXXXXXXX",
-            "SizeBytes": 656,
+            "SequenceNumber": "919571000003526695043723237",
+            "SizeBytes": 766,
             "StreamViewType": "NEW_IMAGE"
         },
-        "eventSourceARN": "arn:aws:dynamodb:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:table/WABA-BUFFER-MSGS-TRawMessagesXXXXXXXXXXXXADXXXXXXXXXXXX-XXXXXXXXXXXXGCUBMJPJXXXXXXXXXXXXAX/stream/XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXTXXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX.XXXXXXXXXXXX"
-    },
-    {
-        "eventID": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "eventName": "INSERT",
-        "eventVersion": "1.1",
-        "eventSource": "aws:dynamodb",
-        "awsRegion": "us-east-1",
-        "dynamodb": {
-            "ApproximateCreationDateTime": 1762843885.0,
-            "Keys": {
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                }
-            },
-            "NewImage": {
-                "metadata": {
-                    "M": {
-                        "phone_number_id": {
-                            "S": "503650672828631"
-                        },
-                        "display_phone_number": {
-                            "S": "56227607895"
-                        }
-                    }
-                },
-                "field": {
-                    "S": "messages"
-                },
-                "contact": {
-                    "M": {
-                        "profile": {
-                            "M": {
-                                "name": {
-                                    "S": "Kike"
-                                }
-                            }
-                        },
-                        "wa_id": {
-                            "S": "14157470265"
-                        }
-                    }
-                },
-                "messaging_product": {
-                    "S": "whatsapp"
-                },
-                "context": {
-                    "M": {
-                        "MetaWabaIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "wabaId": {
-                                            "S": "509609192225796"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        "MetaPhoneNumberIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "metaPhoneNumberId": {
-                                            "S": "503650672828631"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                },
-                "text": {
-                    "M": {
-                        "body": {
-                            "S": "C"
-                        }
-                    }
-                },
-                "type": {
-                    "S": "text"
-                },
-                "timestamp": {
-                    "S": "1762843884"
-                }
-            },
-            "SequenceNumber": "XXXXXXXXXXXXXXXXXXXXXX",
-            "SizeBytes": 656,
-            "StreamViewType": "NEW_IMAGE"
-        },
-        "eventSourceARN": "arn:aws:dynamodb:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:table/WABA-BUFFER-MSGS-TRawMessagesXXXXXXXXXXXXADXXXXXXXXXXXX-XXXXXXXXXXXXGCUBMJPJXXXXXXXXXXXXAX/stream/XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXTXXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX.XXXXXXXXXXXX"
-    },
-    {
-        "eventID": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "eventName": "INSERT",
-        "eventVersion": "1.1",
-        "eventSource": "aws:dynamodb",
-        "awsRegion": "us-east-1",
-        "dynamodb": {
-            "ApproximateCreationDateTime": 1762843886.0,
-            "Keys": {
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                }
-            },
-            "NewImage": {
-                "metadata": {
-                    "M": {
-                        "phone_number_id": {
-                            "S": "503650672828631"
-                        },
-                        "display_phone_number": {
-                            "S": "56227607895"
-                        }
-                    }
-                },
-                "field": {
-                    "S": "messages"
-                },
-                "contact": {
-                    "M": {
-                        "profile": {
-                            "M": {
-                                "name": {
-                                    "S": "Kike"
-                                }
-                            }
-                        },
-                        "wa_id": {
-                            "S": "14157470265"
-                        }
-                    }
-                },
-                "messaging_product": {
-                    "S": "whatsapp"
-                },
-                "context": {
-                    "M": {
-                        "MetaWabaIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "wabaId": {
-                                            "S": "509609192225796"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:waba/fXXXXXXXXXXXXbcbXXXXXXXXXXXXefXXXXXXXXXXXXfXXXXXXXXXXXXbXXXXXXXXXXXXbcXXXXXXXXXXXXdXXXXXXXXXXXXeXXXXXXXXXXXXf"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        "MetaPhoneNumberIds": {
-                            "L": [
-                                {
-                                    "M": {
-                                        "metaPhoneNumberId": {
-                                            "S": "503650672828631"
-                                        },
-                                        "arn": {
-                                            "S": "arn:aws:social-messaging:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:phone-number-id/XXXXXXXXXXXXdXXXXXXXXXXXXddXXXXXXXXXXXXcbXXXXXXXXXXXXbXXXXXXXXXXXXafXXXXXXXXXXXX"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                "from": {
-                    "S": "14157470265"
-                },
-                "id": {
-                    "S": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                },
-                "text": {
-                    "M": {
-                        "body": {
-                            "S": "D"
-                        }
-                    }
-                },
-                "type": {
-                    "S": "text"
-                },
-                "timestamp": {
-                    "S": "1762843886"
-                }
-            },
-            "SequenceNumber": "XXXXXXXXXXXXXXXXXXXXXX",
-            "SizeBytes": 656,
-            "StreamViewType": "NEW_IMAGE"
-        },
-        "eventSourceARN": "arn:aws:dynamodb:us-east-XXXXXXXXXXXX:XXXXXXXXXXXX:table/WABA-BUFFER-MSGS-TRawMessagesXXXXXXXXXXXXADXXXXXXXXXXXX-XXXXXXXXXXXXGCUBMJPJXXXXXXXXXXXXAX/stream/XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXTXXXXXXXXXXXX:XXXXXXXXXXXX:XXXXXXXXXXXX.XXXXXXXXXXXX"
+        "eventSourceARN": "arn:aws:dynamodb:us-east-1:461004555540:table/WABA-EUM-CONNECT-CHAT-TRawWAMsg017C1B04-1UN997XEJT76S/stream/2026-02-04T08:18:32.030"
     }
 ]

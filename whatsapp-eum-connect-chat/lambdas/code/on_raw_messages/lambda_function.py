@@ -31,8 +31,22 @@ def lambda_handler(event, context):
                 item["messaging_product"] = messaging_product
                 item["field"] = field
                 
-                wa_id = message.get("from")
-                contact = next((c for c in contacts if c.get("wa_id") == wa_id), {})
+                from_phone_number = message.get("from")
+                from_user_id = message.get("from_user_id")
+
+                # Identity mode: user_id when available, phone number otherwise.
+                if from_user_id:
+                    item["from"] = from_user_id
+                    contact_key, contact_value = "user_id", from_user_id
+                else:
+                    item["from"] = from_phone_number
+                    contact_key, contact_value = "wa_id", from_phone_number
+
+                item["from_phone_number"] = from_phone_number
+                if from_user_id:
+                    item["from_user_id"] = from_user_id
+
+                contact = next((c for c in contacts if c.get(contact_key) == contact_value), {})
                 item["contact"] = contact
                 
                 table.put_item(Item=item)

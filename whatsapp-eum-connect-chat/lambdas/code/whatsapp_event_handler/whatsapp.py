@@ -29,6 +29,11 @@ class WhatsappMessage:
         self.message = message
         self.metadata = metadata
         self.phone_number = message.get("from", "")
+        self.from_user_id = message.get("from_user_id", "")
+        # Older payloads only carry "from", which is the phone number in that case.
+        self.from_phone_number = message.get("from_phone_number") or (
+            "" if self.from_user_id else self.phone_number
+        )
         self.meta_api_version = meta_api_version
         self.message_id = message.get("id", "")
         self.client = client if client else boto3.client("socialmessaging")
@@ -37,6 +42,18 @@ class WhatsappMessage:
         self.transcription = None
         self.get_attachment(download=download_attachments)
         
+
+    def get_recipient(self):
+        """Destination field for a send_whatsapp_message payload.
+
+        Senders identified by user_id are addressed with "recipient";
+        senders identified by phone number are addressed with "to".
+        """
+        if self.from_user_id:
+            return {"recipient": self.from_user_id}
+        if self.from_phone_number:
+            return {"to": f"+{self.from_phone_number}"}
+        return {}
 
     def add_transcription(self, transcription):
         self.transcription = transcription
@@ -164,17 +181,17 @@ class WhatsappMessage:
         message_object = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
-            "to": f"+{self.phone_number}",
             "type": "reaction",
             "reaction": {"message_id": self.message_id, "emoji": emoji},
         }
+        message_object.update(self.get_recipient())
 
         kwargs = dict(
             originationPhoneNumberId=self.phone_number_arn,
             metaApiVersion=self.meta_api_version,
             message=bytes(json.dumps(message_object), "utf-8"),
         )
-        # print(kwargs)
+        print(kwargs)
         response = self.client.send_whatsapp_message(**kwargs)
         print("react to message:", response)
 
@@ -184,10 +201,10 @@ class WhatsappMessage:
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
             "context": {"message_id": self.message_id},
-            "to": f"+{self.phone_number}",
             "type": "text",
             "text": {"preview_url": False, "body": text_message},
         }
+        message_object.update(self.get_recipient())
 
         kwargs = dict(
             originationPhoneNumberId=self.phone_number_id,
@@ -273,8 +290,7 @@ class WhatsappService:
                     print("ignoring sticker message")
                     continue
 
-                from_number = message.get("from", "")
-                message.update({"customer_name": self.get_customer_name(from_number, contacts)})
+                message.update({"customer_name": self.get_customer_name(message, contacts)})
                 print(f"message: {message}")
                 wspm = WhatsappMessage(phone_number, message, metadata)
                 self.messages.append(wspm)
@@ -287,9 +303,16 @@ class WhatsappService:
             if phone_number.get("metaPhoneNumberId") == phone_number_id:
                 return phone_number
 
-    def get_customer_name(self, from_number, contacts  ):
+    def get_customer_name(self, message, contacts):
+        """Match the contact by user_id when present, by wa_id otherwise."""
+        from_user_id = message.get("from_user_id")
+        if from_user_id:
+            key, value = "user_id", from_user_id
+        else:
+            key, value = "wa_id", message.get("from_phone_number") or message.get("from", "")
+
         for contact in contacts:
-            if contact.get("wa_id") == from_number:
+            if contact.get(key) == value:
                 return contact.get("profile", {}).get("name", "NN")
         return ""
 

@@ -21,7 +21,7 @@ def process_message(message_attributes, message):
             send_whatsapp_text(message_body,phone, systemNumber)
         else:
             print('Contact not found')
-        print('Contact not found')
+
 
 def process_event(message_attributes, message):
     message_type = message_attributes['ContentType']['Value']

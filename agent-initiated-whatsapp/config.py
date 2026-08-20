@@ -46,3 +46,5 @@ CONTACT_FLOW_CONTENTS_FILE = "SendWhatsAppGuideFlowContent.json"
 # Edit this pre-deployment time to create de view and contact flows
 
 INSTANCE_ID = "f5dbbb06-46e7-4435-beab-3b3303074765"
+CONTACT_FLOW_ID = "6175e00e-b7b2-4ca1-b4b6-1b66b737f8a9"
+CREATE_CONNECT_CHAT = "yes"

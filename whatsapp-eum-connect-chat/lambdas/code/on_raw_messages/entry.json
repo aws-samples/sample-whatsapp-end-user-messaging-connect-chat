@@ -1,0 +1,36 @@
+{
+    "id": "1211825633713849",
+    "changes": [
+        {
+            "value": {
+                "messaging_product": "whatsapp",
+                "metadata": {
+                    "display_phone_number": "56227607895",
+                    "phone_number_id": "503650672828631"
+                },
+                "contacts": [
+                    {
+                        "profile": {
+                            "name": "Kike"
+                        },
+                        "wa_id": "14157470265",
+                        "user_id": "US.26852818834383302"
+                    }
+                ],
+                "messages": [
+                    {
+                        "from": "14157470265",
+                        "from_user_id": "US.26852818834383302",
+                        "id": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQTlFMEY1QTgxNUM4REEzRjFBRQA=",
+                        "timestamp": "1787204895",
+                        "text": {
+                            "body": "Hola"
+                        },
+                        "type": "text"
+                    }
+                ]
+            },
+            "field": "messages"
+        }
+    ]
+}

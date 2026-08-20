@@ -65,9 +65,10 @@ class AgentInitiatedWhatsappStack(Stack):
         )
 
     def set_up_env_vars(self):
-        self.lambda_functions.send_whatsapp_message.add_environment(
-            key="CONFIG_PARAM_NAME", value=config.CONFIG_PARAM_NAME
-        )
+        self.lambda_functions.send_whatsapp_message.add_environment(key="CONFIG_PARAM_NAME", value=config.CONFIG_PARAM_NAME)
+        self.lambda_functions.send_whatsapp_message.add_environment(key="CREATE_CONNECT_CHAT", value=config.CREATE_CONNECT_CHAT)
+        self.lambda_functions.send_whatsapp_message.add_environment(key="INSTANCE_ID", value=config.INSTANCE_ID)
+        self.lambda_functions.send_whatsapp_message.add_environment(key="CONTACT_FLOW_ID", value=config.CONTACT_FLOW_ID)
 
     def create_parameters(self):
         self.config_parameters = self.create_ssm_parameter(

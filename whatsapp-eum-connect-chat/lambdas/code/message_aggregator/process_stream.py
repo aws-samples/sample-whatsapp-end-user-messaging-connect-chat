@@ -28,6 +28,45 @@ def deserialize_dynamodb(item: Dict[str, Any]) -> Dict[str, Any]:
     return item
 
 
+def build_contact(contact: Dict[str, Any]) -> Dict[str, Any]:
+    """Rebuild a webhook contact, keeping user_id when the sender has one."""
+    payload: Dict[str, Any] = {
+        'profile': contact.get('profile', {}),
+        'wa_id': contact.get('wa_id', '')
+    }
+    if contact.get('user_id'):
+        payload['user_id'] = contact['user_id']
+    return payload
+
+
+def build_message(message: Dict[str, Any]) -> Dict[str, Any]:
+    """Rebuild a webhook message, keeping the sender identity fields."""
+    payload: Dict[str, Any] = {
+        'from': message.get('from'),
+        'id': message.get('id'),
+        'timestamp': message.get('timestamp'),
+        'text': message.get('text'),
+        'type': message.get('type'),
+        'audio': message.get('audio'),
+        'image': message.get('image'),
+        'video': message.get('video'),
+        'document': message.get('document'),
+        'sticker': message.get('sticker'),
+        'location': message.get('location'),
+        'contacts': message.get('contacts'),
+        'interactive': message.get('interactive')
+    }
+
+    # from_user_id only exists for senders identified by user_id, and downstream
+    # code branches on its presence, so it is omitted when empty.
+    if message.get('from_user_id'):
+        payload['from_user_id'] = message['from_user_id']
+    if message.get('from_phone_number'):
+        payload['from_phone_number'] = message['from_phone_number']
+
+    return payload
+
+
 def aggregate_all_messages(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Group records by contact, metadata, context and concatenate consecutive text messages."""
     grouped = defaultdict(lambda: {'messaging_product': None, 'metadata': None, 'context': None, 'contacts': {}, 'messages': []})
@@ -76,22 +115,8 @@ def aggregate_all_messages(records: List[Dict[str, Any]]) -> List[Dict[str, Any]
             'metadata': data['metadata'],
             'context': data['context'],
             'field': 'messages',
-            'contacts': [{'profile': c['profile'], 'wa_id': c['wa_id']} for c in data['contacts'].values()],
-            'messages': [{
-                'from': m['from'],
-                'id': m['id'],
-                'timestamp': m['timestamp'],
-                'text': m.get('text'),
-                'type': m['type'],
-                'audio': m.get('audio'),
-                'image': m.get('image'),
-                'video': m.get('video'),
-                'document': m.get('document'),
-                'sticker': m.get('sticker'),
-                'location': m.get('location'),
-                'contacts': m.get('contacts'),
-                'interactive': m.get('interactive')
-            } for m in aggregated]
+            'contacts': [build_contact(c) for c in data['contacts'].values()],
+            'messages': [build_message(m) for m in aggregated]
         })
     
     return result

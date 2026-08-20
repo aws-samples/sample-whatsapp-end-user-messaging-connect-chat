@@ -11,5 +11,5 @@ CONFIG_PARAM_INITIAL_CONTENT = {
     "ignore_stickers": "yes",
 }
 
-BUFFER_IN_SECONDS = 20
+BUFFER_IN_SECONDS = 5
 META_API_VERSION = "v23.0"

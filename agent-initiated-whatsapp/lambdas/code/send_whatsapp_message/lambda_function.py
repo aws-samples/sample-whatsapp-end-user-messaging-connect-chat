@@ -100,6 +100,13 @@ def lambda_handler(event, context):
         message_id = response.get("messageId", "")
         logger.info(f"Message sent successfully. messageId: {message_id}")
 
+        if message_id != "":
+            create_connect_chat = os.environ.get("CREATE_CONNECT_CHAT","")
+            if create_connect_chat.lower() == "yes":
+                print ("crating connect chat")
+                # TODO: implement create a chat with the customer.
+                pass
+
         return {
             "result": "OK",
             "messageId": message_id,
