@@ -1,3 +1,5 @@
+*.ipynb
+.ipynb_checkpoints/
 *.swp
 package-lock.json
 __pycache__
