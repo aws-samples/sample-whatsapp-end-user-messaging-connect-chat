@@ -10,7 +10,7 @@ logger.setLevel(logging.INFO)
 def lambda_handler(event, context):
     return {
         "fullName": "Enrique Rodriguez",
-        "phoneNumber": "+14157470265",
+        "phoneNumber": "+XXXXXXXXX",
         "input4": "Entregado",
         "input3": "Puzzle 1000 piezas",
         "input2": "P12345",

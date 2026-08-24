@@ -32,7 +32,7 @@ The end result: customers who adopt a username keep talking to your agents, and 
 A BSUID is an opaque identifier for a WhatsApp user, scoped to a single Meta business portfolio. Two things matter for the implementation:
 
 - **It's always there.** BSUIDs appear in messages webhooks whether or not the user adopted a username. The phone number is the field that may go missing.
-- **It's not a phone number.** BSUIDs are prefixed with the user's ISO 3166 alpha-2 country code and a period, followed by up to 128 alphanumeric characters — for example `US.26852818834383302`. When you send to a BSUID you must use the entire value, country code and period included.
+- **It's not a phone number.** BSUIDs are prefixed with the user's ISO 3166 alpha-2 country code and a period, followed by up to 128 alphanumeric characters — for example `US.XXXXXXXXXXXXXXX`. When you send to a BSUID you must use the entire value, country code and period included.
 
 ### Which identifier arrives, and when
 
@@ -55,21 +55,21 @@ Here's an inbound webhook from a user who has a BSUID and whose phone number is 
       "value": {
         "messaging_product": "whatsapp",
         "metadata": {
-          "display_phone_number": "56227607895",
-          "phone_number_id": "503650672828631"
+          "display_phone_number": "XXXXXXXXXX",
+          "phone_number_id": "XXXXXXXXXXXXXX"
         },
         "contacts": [
           {
             "profile": { "name": "Kike" },
-            "wa_id": "14157470265",
-            "user_id": "US.26852818834383302"
+            "wa_id": "XXXXXXXXX",
+            "user_id": "US.XXXXXXXXXXXXXXX"
           }
         ],
         "messages": [
           {
-            "from": "14157470265",
-            "from_user_id": "US.26852818834383302",
-            "id": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQTlFMEY1QTgxNUM4REEzRjFBRQA=",
+            "from": "XXXXXXXXX",
+            "from_user_id": "US.XXXXXXXXXXXXXXX",
+            "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX=",
             "timestamp": "1787204895",
             "text": { "body": "Hola" },
             "type": "text"
@@ -326,7 +326,7 @@ def get_recipient(destination):
     """Destination field for a send_whatsapp_message payload.
 
     active_connections stores whatever identified the customer: a WhatsApp
-    user_id (e.g. "US.26852818834383302") or a phone number. user_id
+    user_id (e.g. "US.XXXXXXXXXXXXXXX") or a phone number. user_id
     destinations are addressed with "recipient", phone numbers with "to".
     """
     destination = str(destination or "").strip()
@@ -380,7 +380,7 @@ start_chat_response = self.connect.start_chat_contact(
 )
 ```
 
-**Check your contact flows.** If a flow, Lambda invocation, or agent screen-pop uses `customerId` as a phone number — a CRM lookup, a callback, an outbound dial — it will now receive `US.26852818834383302` for some customers. Two options: pass the phone number as a second attribute (it's available as `message.from_phone_number` when present), or make the consumer handle both shapes. This is the change most likely to surprise you in production, and it lives outside the code in this repo.
+**Check your contact flows.** If a flow, Lambda invocation, or agent screen-pop uses `customerId` as a phone number — a CRM lookup, a callback, an outbound dial — it will now receive `US.XXXXXXXXXXXXXXX` for some customers. Two options: pass the phone number as a second attribute (it's available as `message.from_phone_number` when present), or make the consumer handle both shapes. This is the change most likely to surprise you in production, and it lives outside the code in this repo.
 
 ## Differences from the previous version, at a glance
 
@@ -391,7 +391,7 @@ start_chat_response = self.connect.start_chat_contact(
 | Contact lookup key | Always `wa_id` | `user_id` or `wa_id`, per message |
 | Outbound destination | Hardcoded `"to": f"+{phone}"` | `get_recipient()` returns `{"recipient": ...}` or `{"to": ...}` |
 | Aggregator payload | Fixed field allowlist | Same allowlist plus `from_user_id`, `from_phone_number`, contact `user_id` |
-| `raw_messages` partition key `from` | `14157470265` | `US.26852818834383302` or `14157470265` |
+| `raw_messages` partition key `from` | `XXXXXXXXX` | `US.XXXXXXXXXXXXXXX` or `XXXXXXXXX` |
 | `active_connections` GSI `customerId` | Phone number | BSUID or phone number |
 | DynamoDB schema / GSIs | — | **Unchanged** |
 | CDK stack, IAM, SNS, tables | — | **Unchanged** |

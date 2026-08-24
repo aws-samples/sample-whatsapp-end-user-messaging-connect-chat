@@ -14,7 +14,7 @@ def get_recipient(destination):
     """Destination field for a send_whatsapp_message payload.
 
     active_connections stores whatever identified the customer: a WhatsApp
-    user_id (e.g. "US.26852818834383302") or a phone number. user_id
+    user_id (e.g. "US.XXXXXXXXXXXXXXX") or a phone number. user_id
     destinations are addressed with "recipient", phone numbers with "to".
     """
     destination = str(destination or "").strip()

@@ -5,23 +5,23 @@
             "value": {
                 "messaging_product": "whatsapp",
                 "metadata": {
-                    "display_phone_number": "56227607895",
-                    "phone_number_id": "503650672828631"
+                    "display_phone_number": "XXXXXXXXXX",
+                    "phone_number_id": "XXXXXXXXXXXXXX"
                 },
                 "contacts": [
                     {
                         "profile": {
                             "name": "Kike"
                         },
-                        "wa_id": "14157470265",
-                        "user_id": "US.26852818834383302"
+                        "wa_id": "XXXXXXXXX",
+                        "user_id": "US.XXXXXXXXXXXXXXX"
                     }
                 ],
                 "messages": [
                     {
-                        "from": "14157470265",
-                        "from_user_id": "US.26852818834383302",
-                        "id": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQTlFMEY1QTgxNUM4REEzRjFBRQA=",
+                        "from": "XXXXXXXXX",
+                        "from_user_id": "US.XXXXXXXXXXXXXXX",
+                        "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX=",
                         "timestamp": "1787204895",
                         "text": {
                             "body": "Hola"

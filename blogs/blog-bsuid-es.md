@@ -32,7 +32,7 @@ El resultado final: los clientes que adopten un username siguen hablando con tus
 Un BSUID es un identificador opaco de un usuario de WhatsApp, con alcance limitado a un solo portafolio de negocio de Meta. Dos cosas importan para la implementación:
 
 - **Siempre está presente.** Los BSUID aparecen en los webhooks de mensajes independientemente de si el usuario adoptó un username. El número de teléfono es el campo que puede faltar.
-- **No es un número de teléfono.** Los BSUID llevan como prefijo el código de país ISO 3166 alpha-2 del usuario y un punto, seguidos de hasta 128 caracteres alfanuméricos. Por ejemplo `US.26852818834383302`. Cuando envías a un BSUID debes usar el valor completo, incluyendo el código de país y el punto.
+- **No es un número de teléfono.** Los BSUID llevan como prefijo el código de país ISO 3166 alpha-2 del usuario y un punto, seguidos de hasta 128 caracteres alfanuméricos. Por ejemplo `US.XXXXXXXXXXXXXXX`. Cuando envías a un BSUID debes usar el valor completo, incluyendo el código de país y el punto.
 
 ### Qué identificador llega, y cuándo
 
@@ -55,21 +55,21 @@ Este es un webhook entrante de un usuario que tiene BSUID y cuyo número aún es
       "value": {
         "messaging_product": "whatsapp",
         "metadata": {
-          "display_phone_number": "56227607895",
-          "phone_number_id": "503650672828631"
+          "display_phone_number": "XXXXXXXXXX",
+          "phone_number_id": "XXXXXXXXXXXXXX"
         },
         "contacts": [
           {
             "profile": { "name": "Kike" },
-            "wa_id": "14157470265",
-            "user_id": "US.26852818834383302"
+            "wa_id": "XXXXXXXXX",
+            "user_id": "US.XXXXXXXXXXXXXXX"
           }
         ],
         "messages": [
           {
-            "from": "14157470265",
-            "from_user_id": "US.26852818834383302",
-            "id": "wamid.HBgLMTQxNTc0NzAyNjUVAgASGBQzQTlFMEY1QTgxNUM4REEzRjFBRQA=",
+            "from": "XXXXXXXXX",
+            "from_user_id": "US.XXXXXXXXXXXXXXX",
+            "id": "wamid.XXXXXXXXXXXXXXXXXXXXXXXXXXXXX=",
             "timestamp": "1787204895",
             "text": { "body": "Hola" },
             "type": "text"
@@ -326,7 +326,7 @@ def get_recipient(destination):
     """Destination field for a send_whatsapp_message payload.
 
     active_connections stores whatever identified the customer: a WhatsApp
-    user_id (e.g. "US.26852818834383302") or a phone number. user_id
+    user_id (e.g. "US.XXXXXXXXXXXXXXX") or a phone number. user_id
     destinations are addressed with "recipient", phone numbers with "to".
     """
     destination = str(destination or "").strip()
@@ -380,7 +380,7 @@ start_chat_response = self.connect.start_chat_contact(
 )
 ```
 
-**Revisa tus contact flows.** Si un flujo, una Lambda invocada desde el flujo o una pantalla del agente usa `customerId` como número de teléfono — una búsqueda en el CRM, un callback, una llamada saliente — ahora va a recibir `US.26852818834383302` para algunos clientes. Dos opciones: pasar el número como un segundo atributo (está disponible en `message.from_phone_number` cuando existe), o hacer que el consumidor maneje ambas formas. Este es el cambio con más probabilidad de sorprenderte en producción, y vive fuera del código de este repositorio.
+**Revisa tus contact flows.** Si un flujo, una Lambda invocada desde el flujo o una pantalla del agente usa `customerId` como número de teléfono — una búsqueda en el CRM, un callback, una llamada saliente — ahora va a recibir `US.XXXXXXXXXXXXXXX` para algunos clientes. Dos opciones: pasar el número como un segundo atributo (está disponible en `message.from_phone_number` cuando existe), o hacer que el consumidor maneje ambas formas. Este es el cambio con más probabilidad de sorprenderte en producción, y vive fuera del código de este repositorio.
 
 ## Diferencias con la versión anterior, de un vistazo
 
@@ -391,7 +391,7 @@ start_chat_response = self.connect.start_chat_contact(
 | Clave de búsqueda del contacto | Siempre `wa_id` | `user_id` o `wa_id`, por mensaje |
 | Destino saliente | `"to": f"+{phone}"` hardcodeado | `get_recipient()` devuelve `{"recipient": ...}` o `{"to": ...}` |
 | Payload del agregador | Lista fija de campos permitidos | La misma lista más `from_user_id`, `from_phone_number` y el `user_id` del contacto |
-| Clave de partición `from` de `raw_messages` | `14157470265` | `US.26852818834383302` o `14157470265` |
+| Clave de partición `from` de `raw_messages` | `XXXXXXXXX` | `US.XXXXXXXXXXXXXXX` o `XXXXXXXXX` |
 | GSI `customerId` de `active_connections` | Número de teléfono | BSUID o número de teléfono |
 | Esquema y GSIs de DynamoDB | — | **Sin cambios** |
 | Stack de CDK, IAM, SNS, tablas | — | **Sin cambios** |
