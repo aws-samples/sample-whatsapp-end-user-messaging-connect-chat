@@ -16,6 +16,20 @@ def get_recipient(destination):
     active_connections stores whatever identified the customer: a WhatsApp
     user_id (e.g. "US.XXXXXXXXXXXXXXX") or a phone number. user_id
     destinations are addressed with "recipient", phone numbers with "to".
+
+    NOTE: the identity mode is inferred from the *shape* of the stored value,
+    because active_connections keeps a single customerId and not the mode it
+    came from. The inference holds today — a BSUID always starts with an ISO
+    3166 alpha-2 country code plus a period, which a phone number never does —
+    but it is still an inference. The inbound side does not need it: see
+    WhatsappMessage.get_recipient in whatsapp_event_handler/whatsapp.py, which
+    branches on the presence of from_user_id in the webhook itself.
+
+    A more robust option: persist the identity mode alongside the session.
+    Store from_user_id as its own attribute in active_connections (next to the
+    customerId used as the lookup key) and read that attribute here instead of
+    pattern-matching the string. That also frees from_phone_number to enrich
+    the customer profile when Meta does share the number.
     """
     destination = str(destination or "").strip()
     if not destination:
